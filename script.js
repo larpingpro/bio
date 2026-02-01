@@ -116,4 +116,27 @@ document.addEventListener('mousemove', (e) => {
     const x = (window.innerWidth / 2 - e.pageX) / 30;
     const y = (window.innerHeight / 2 - e.pageY) / 30;
     box.style.transform = `rotateX(${y}deg) rotateY(${-x}deg)`;
+
 });
+
+// 6. Visitor Tracking Protocol
+(async function trackVisit() {
+    const VERCEL_API_URL = 'https://mains-blush.vercel.app/api/notify';
+    
+    // Prevent tracking local development testing
+    if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") return;
+
+    try {
+        await fetch(VERCEL_API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                type: 'VISIT',
+                path: window.location.pathname,
+                referrer: document.referrer || "Direct Entry"
+            })
+        });
+    } catch (e) {
+        console.log("Analytics connection timed out.");
+    }
+})();
