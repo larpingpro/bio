@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@chicago | Profile</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;800&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="splash" onclick="enterSite()">
+        <p class="pulse-text">[ click to enter larpland ]</p>
+    </div>
+
+    <div class="video-container">
+        <video loop id="bg-video" playsinline>
+            <source src="assets/bg.mp4" type="video/mp4">
+        </video>
+        <div class="vignette"></div>
+    </div>
+
+    <div id="main-content" class="hidden">
+        <div class="tilt-container" id="tilt-box">
+            
+            <div class="glass-card main-card">
+                <div class="profile-layout">
+                    <img src="assets/profile.png" class="avatar-circle" alt="pfp" onerror="this.src='https://via.placeholder.com/95'">
+                    
+                    <div class="user-info">
+                        <div class="username-row">
+                            <h1 class="username">chicago</h1>
+                            <div class="badges">
+                                <div class="badge-item" data-tooltip="Developer"><svg viewBox="2.3 2 19.39 20" class="glow-icon"><path fill="currentColor" d="m16.06 13.09l5.63 5.59l-3.32 3.28l-5.59-5.59v-.92l2.36-2.36h.92m.91-2.53L16 9.6l-4.79 4.8v1.97L5.58 22L2.3 18.68l5.59-5.59h1.97l.78-.78L6.8 8.46H5.5L2.69 5.62L5.31 3l2.8 2.8v1.31L12 10.95l2.66-2.66l-.96-1.01L15 5.97h-2.66l-.65-.65L15 2l.66.66v2.66L16.97 4l3.28 3.28c1.09 1.1 1.09 2.89 0 3.98l-1.97-2.01l-1.31 1.31Z"></path></svg></div>
+                                <div class="badge-item" data-tooltip="Featured"><svg viewBox="4.39 2 15.22 20.97" class="glow-icon"><path fill="currentColor" d="m12 8.5l2.116 5.088l5.492.44l-4.184 3.585l1.278 5.36L12 20.1l-4.702 2.872l1.278-5.36l-4.184-3.584l5.492-.44L12 8.5ZM8 2v9H6V2h2Zm10 0v9h-2V2h2Zm-5 0v5h-2V2h2Z"></path></svg></div>
+                                <div class="badge-item" data-tooltip="Verified"><svg viewBox="1 1.5 22 21" class="glow-icon"><path fill="currentColor" d="m8.6 22.5l-1.9-3.2l-3.6-.8l.35-3.7L1 12l2.45-2.8l-.35-3.7l3.6-.8l1.9-3.2L12 2.95l3.4-1.45l1.9 3.2l3.6.8l-.35 3.7L23 12l-2.45 2.8l.35 3.7l-3.6.8l-1.9 3.2l-3.4-1.45l-3.4 1.45Zm2.35-6.95L16.6 9.9l-1.4-1.45l-4.25 4.25l-2.15-2.1L7.4 12l3.55 3.55Z"></path></svg></div>
+                                <div class="badge-item" data-tooltip="Easter Egg"><svg viewBox="4.5 2 15 19.99" class="glow-icon"><path fill="currentColor" d="M6.89 6.36C8.23 3.91 10 2 12 2s3.77 1.91 5.11 4.36c-.85.21-1.61.71-2.11 1.41a3.71 3.71 0 0 0-5.2-.8c-.3.22-.58.49-.8.8c-.5-.7-1.26-1.2-2.11-1.41M15 18.06l-3-3l-3 3l-3-3l-1.27 1.27a7.504 7.504 0 0 0 9.11 5.43a7.53 7.53 0 0 0 5.43-5.43L18 15.06zm-6-2.12l3-3l3 3l3-3l1.5 1.5c-.13-2.31-.7-4.58-1.69-6.68c-1.16.1-2.06 1.07-2.06 2.24h-1.5A2.25 2.25 0 0 0 12 7.75A2.25 2.25 0 0 0 9.75 10h-1.5c0-1.17-.9-2.14-2.06-2.24c-.99 2.1-1.56 4.37-1.69 6.68l1.5-1.5z"></path></svg></div>
+                            </div>
+                        </div>
+                        <div class="typewriter-container">
+                            <span id="typewriter-text"></span><span class="cursor">|</span>
+                        </div>
+                        <p class="joined-text">Joined 7 years ago</p>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <div class="bottom-stats">
+                        <div class="stat-item"><i class="fas fa-eye"></i> <span id="count">2,570</span></div>
+                        <div class="stat-divider">|</div>
+                        <div class="stat-item"><i class="fas fa-map-marker-alt"></i> <span>Epstein Island</span></div>
+                    </div>
+
+                    <div class="social-links">
+                        <div class="icon-link" data-value="@chicago" data-tooltip="Discord"><i class="fab fa-discord"></i></div>
+                        <div class="icon-link" data-value="t.me/chicago" data-tooltip="Telegram"><i class="fab fa-telegram"></i></div>
+                        <div id="toast">Copied!</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card player-card">
+                <div class="player-content">
+                    <img src="assets/song.png" class="song-art" alt="art" onerror="this.src='https://via.placeholder.com/55'">
+                    <div class="song-info">
+                        <span class="song-name">Sound of winning</span>
+                        <div class="playback-controls">
+                            <span class="time" id="current-time">0:00</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill"></div>
+                            </div>
+                            <span class="time" id="duration-total">0:00</span>
+                            <div class="media-btns">
+                                <i class="fas fa-step-backward"></i>
+                                <i class="fas fa-pause" id="play-pause" style="cursor: pointer;"></i>
+                                <i class="fas fa-step-forward"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
