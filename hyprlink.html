@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HyprShort | Animated Launcher</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600&display=swap');
+
+        :root {
+            --accent: #89b4fa;
+            --bg: #11111b;
+            --surface: rgba(30, 30, 46, 0.6);
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image: radial-gradient(circle at 50% -20%, #1e1e2e 0%, #11111b 80%);
+            color: #cdd6f4;
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 10vh;
+            overflow-x: hidden;
+        }
+
+        .glass {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        /* The "Stagger" Animation */
+        @keyframes revealItem {
+            0% { opacity: 0; transform: translateY(-10px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .stagger-item {
+            opacity: 0;
+            animation: revealItem 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        /* Hover Glow */
+        .service-item {
+            position: relative;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        .service-item:hover {
+            background: rgba(137, 180, 250, 0.15);
+            padding-left: 1.8rem;
+        }
+        .service-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--accent);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        .service-item:hover::before {
+            transform: scaleY(1);
+        }
+
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #313244; border-radius: 10px; }
+        
+        /* Smooth Scale for Modal */
+        .scale-in { animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .mono { font-family: 'JetBrains Mono', monospace; }
+    </style>
+</head>
+<body>
+
+    <div class="w-full max-w-lg px-6">
+        <div class="glass rounded-2xl p-4 mb-4 flex items-center gap-4 transition-all duration-500 hover:border-blue-500/40">
+            <div class="flex gap-1.5">
+                <div class="w-3 h-3 rounded-full bg-[#f38ba8]"></div>
+                <div class="w-3 h-3 rounded-full bg-[#fab387]"></div>
+                <div class="w-3 h-3 rounded-full bg-[#a6e3a1]"></div>
+            </div>
+            <input type="text" id="serviceSearch" placeholder="Type to search shorteners..." 
+                   class="bg-transparent border-none outline-none w-full text-lg font-light placeholder-gray-600 mono">
+        </div>
+
+        <div id="menuContainer" class="glass rounded-2xl overflow-hidden max-h-[60vh] overflow-y-auto custom-scroll">
+            <div id="serviceList" class="flex flex-col py-2">
+                </div>
+        </div>
+
+        <div id="overlay" class="fixed inset-0 bg-[#000]/40 backdrop-blur-md hidden flex items-center justify-center z-50 p-6">
+            <div id="modal" class="glass w-full max-w-md rounded-3xl p-8 border border-white/10 relative">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 id="activeService" class="text-blue-300 font-bold uppercase tracking-widest text-xs mono">BIT.LY</h2>
+                    <button onclick="closeModal()" class="text-gray-500 hover:text-white transition-colors">✕</button>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="group">
+                        <label class="text-[10px] text-gray-500 uppercase ml-2 mb-1 block">Destination URL</label>
+                        <input type="text" id="longUrl" placeholder="https://roblox.com/..." 
+                               class="w-full bg-black/30 border border-white/5 rounded-xl p-4 outline-none focus:border-blue-500/50 transition-all text-sm mono">
+                    </div>
+                    
+                    <div class="group">
+                        <label class="text-[10px] text-gray-500 uppercase ml-2 mb-1 block">Custom Slug</label>
+                        <input type="text" id="slug" placeholder="cool-link-123" 
+                               class="w-full bg-black/30 border border-white/5 rounded-xl p-4 outline-none focus:border-blue-500/50 transition-all text-sm mono">
+                    </div>
+
+                    <button onclick="generateShortLink()" class="w-full bg-blue-500 hover:bg-blue-400 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-500/20 transition-all active:scale-95">
+                        GENERATE HYPERLINK
+                    </button>
+
+                    <div id="resultBox" class="hidden animate__animated animate__fadeIn">
+                        <label class="text-[10px] text-green-400 uppercase ml-2 mb-1 block">Discord Ready Format</label>
+                        <textarea id="finalOutput" readonly class="w-full bg-black/50 border border-green-500/20 rounded-xl p-4 text-xs mono h-24 resize-none text-gray-300"></textarea>
+                        <button onclick="copyToClipboard()" class="w-full mt-2 text-[10px] text-blue-400 hover:text-blue-300 transition-colors uppercase font-bold">Copy to Clipboard</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const services = ["is.gd", "TinyURL", "Bit.ly", "Rebrand.ly", "Cutt.ly", "click.ly", "tiny.cc", "shorter.me", "shorter.gg", "spoo.me", "shorturl.asia", "reurl.cc", "href.li", "HyperHost", "l8.nu", "rb.gy", "t2m.io", "clck.ru", "v.gd", "short.io", "kurze.links"];
+
+        const serviceList = document.getElementById('serviceList');
+
+        // Create the cascading animation effect
+        function renderServices() {
+            serviceList.innerHTML = '';
+            services.forEach((name, index) => {
+                const div = document.createElement('div');
+                div.className = "service-item stagger-item p-4 cursor-pointer text-sm font-medium border-b border-white/5 last:border-none";
+                div.innerText = name;
+                // Add a staggered delay for each item
+                div.style.animationDelay = `${index * 0.04}s`; 
+                div.onclick = () => openModal(name);
+                serviceList.appendChild(div);
+            });
+        }
+
+        function openModal(service) {
+            document.getElementById('activeService').innerText = service;
+            const overlay = document.getElementById('overlay');
+            const modal = document.getElementById('modal');
+            
+            overlay.classList.remove('hidden');
+            modal.classList.add('scale-in');
+        }
+
+        function closeModal() {
+            document.getElementById('overlay').classList.add('hidden');
+            document.getElementById('resultBox').classList.add('hidden');
+            document.getElementById('modal').classList.remove('scale-in');
+        }
+
+        function fixUrl(url) {
+            let fixed = url.trim();
+            // Fixing Roblox typos
+            fixed = fixed.replace(/robiox\.com/gi, 'roblox.com');
+            fixed = fixed.replace(/roblox\.com\.ge/gi, 'roblox.com');
+            
+            if (!fixed.startsWith('http')) fixed = 'https://' + fixed;
+            if (fixed.includes('roblox.com') && !fixed.includes('www.')) {
+                fixed = fixed.replace('roblox.com', 'www.roblox.com');
+            }
+            return fixed;
+        }
+
+        function generateShortLink() {
+            const rawUrl = document.getElementById('longUrl').value;
+            const slug = document.getElementById('slug').value;
+            const service = document.getElementById('activeService').innerText;
+
+            if (!rawUrl) return;
+
+            const fixedLong = fixUrl(rawUrl);
+            const randomID = Math.random().toString(36).substring(7);
+            const shortUrl = `https://${service.toLowerCase()}/${slug || randomID}`;
+
+            // Requested Discord Format: [https_:_//site](shortlink)
+            const displayLabel = fixedLong.replace('https://', 'https_:_//');
+            const finalFormat = `[${displayLabel}](${shortUrl})`;
+
+            document.getElementById('finalOutput').value = finalFormat;
+            document.getElementById('resultBox').classList.remove('hidden');
+        }
+
+        function copyToClipboard() {
+            const el = document.getElementById('finalOutput');
+            el.select();
+            document.execCommand('copy');
+            alert("Copied!");
+        }
+
+        // Search filtering logic
+        document.getElementById('serviceSearch').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            document.querySelectorAll('.service-item').forEach(item => {
+                const isVisible = item.innerText.toLowerCase().includes(term);
+                item.style.display = isVisible ? 'block' : 'none';
+                // Reset animation delay for filtered items to keep it smooth
+                item.style.animationDelay = '0s'; 
+            });
+        });
+
+        // Initialize
+        window.onload = renderServices;
+    </script>
+</body>
+</html>
