@@ -1,0 +1,14 @@
+{
+  "name": "rich",
+  "homepage": "https://larpingpro.github.io/rich",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  }
+}
