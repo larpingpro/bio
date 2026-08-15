@@ -13,20 +13,17 @@
         .spatial-panel::before { content: ""; position: absolute; inset: -1.5px; border-radius: 40px; padding: 1.5px; background: radial-gradient(450px circle at var(--gx) var(--gy), rgba(255, 149, 0, var(--proximity-opacity, 0)), transparent 100%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; pointer-events: none; z-index: 5; }
         .animate-entry { opacity: 0; transform: scale(0.97) translateY(20px); transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
         .animate-entry.loaded { opacity: 1; transform: scale(1) translateY(0); }
-        .crypto-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; padding: 16px; transition: 0.3s; }
-        .crypto-card.selected { border-color: var(--exodus-orange); background: rgba(255, 149, 0, 0.05); }
+        .crypto-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; padding: 16px; transition: 0.3s; font-size: 10px; font-weight: 900; letter-spacing: 0.1em; text-align: center; }
+        .crypto-card.selected { border-color: var(--exodus-orange); background: rgba(255, 149, 0, 0.05); color: var(--exodus-orange); }
         .btn-exodus { background: linear-gradient(180deg, #ffb347 0%, #ff9500 100%); color: #000; font-weight: 800; border-radius: 18px; padding: 16px 0; display: flex; align-items: center; justify-content: center; gap: 8px; }
         #cursor-dot { position: fixed; width: 6px; height: 6px; background: var(--exodus-orange); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); box-shadow: 0 0 15px var(--exodus-orange); }
-        
-        .loader { width: 12px; height: 12px; border: 2px solid #000; border-bottom-color: transparent; border-radius: 50%; display: inline-block; animation: rotation 1s linear infinite; display: none; }
+        .loader { width: 12px; height: 12px; border: 2px solid #000; border-bottom-color: transparent; border-radius: 50%; display: none; animation: rotation 1s linear infinite; }
         @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-
     <div id="cursor-dot"></div>
-
-    <nav class="relative z-50 px-16 py-8 flex justify-between items-center">
+    <nav class="relative z-50 px-16 py-8">
         <a href="index.html" class="text-xl font-bold tracking-tight">larping<span class="text-[#ff9500]">.pro</span></a>
     </nav>
 
@@ -34,33 +31,33 @@
         <div class="spatial-panel w-full max-w-[480px] p-10 animate-entry" id="main-panel">
             <div id="checkout-view">
                 <div class="flex justify-between items-center mb-8">
-                    <h2 class="text-3xl font-bold italic">Checkout</h2>
+                    <h2 class="text-3xl font-bold italic tracking-tighter text-white">Checkout</h2>
                     <span class="text-3xl font-black text-orange-500 italic">$10</span>
                 </div>
 
-                <div class="space-y-3 mb-8">
+                <div class="grid grid-cols-2 gap-3 mb-8">
                     <div id="sol-card" class="crypto-card cursor-pointer" onclick="selectAsset('SOL', 'YOUR_SOL_ADDR')">SOLANA</div>
                     <div id="eth-card" class="crypto-card cursor-pointer" onclick="selectAsset('ETH', 'YOUR_ETH_ADDR')">ETHEREUM</div>
+                    <div id="ltc-card" class="crypto-card cursor-pointer" onclick="selectAsset('LTC', 'YOUR_LTC_ADDR')">LITECOIN</div>
+                    <div id="usdt-card" class="crypto-card cursor-pointer" onclick="selectAsset('USDT (TRC-20)', 'YOUR_TRON_USDT_ADDR')">USDT TRC-20</div>
                 </div>
 
                 <div id="payment-zone" class="hidden">
-                    <div class="bg-black/40 rounded-xl p-4 mb-4 border border-white/5 flex justify-between">
+                    <div class="bg-black/40 rounded-xl p-4 mb-4 border border-white/5 flex justify-between items-center">
                         <code id="addr-display" class="text-[10px] text-gray-400 truncate mr-4">...</code>
-                        <button onclick="navigator.clipboard.writeText(document.getElementById('addr-display').innerText)" class="text-orange-500 text-xs"><i class="fas fa-copy"></i></button>
+                        <button onclick="navigator.clipboard.writeText(document.getElementById('addr-display').innerText)" class="text-orange-500 text-xs hover:text-white transition-colors">
+                            <i class="fas fa-copy"></i>
+                        </button>
                     </div>
-                    <input type="text" id="tx-input" placeholder="TX Hash" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-xs mb-4 text-white focus:border-orange-500 outline-none">
+                    <input type="text" id="tx-input" placeholder="Enter Transaction Hash (TXID)" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-xs mb-4 text-white focus:border-orange-500 outline-none transition-all">
                     
                     <button onclick="submitPayment()" id="submit-btn" class="w-full btn-exodus text-[10px] uppercase tracking-widest">
                         <span class="loader" id="btn-loader"></span>
                         <span id="btn-text">Verify Payment</span>
                     </button>
-
-                    <button onclick="testSystemConnection()" class="mt-4 w-full border border-white/10 text-[8px] font-black uppercase tracking-widest text-gray-600 hover:text-orange-500 hover:border-orange-500/30 py-3 rounded-xl transition-all">
-                        Run System Diagnostic (Test IP)
-                    </button>
                 </div>
             </div>
-            <a href="index.html" class="block text-center mt-6 text-[9px] text-gray-600 uppercase tracking-widest">← Cancel</a>
+            <a href="index.html" class="block text-center mt-6 text-[9px] text-gray-600 uppercase tracking-widest hover:text-white transition-colors">← Cancel Authorization</a>
         </div>
     </main>
 
@@ -74,8 +71,12 @@
             selectedAsset = asset;
             document.getElementById('payment-zone').classList.remove('hidden');
             document.getElementById('addr-display').innerText = addr;
+            
+            // UI Selection Logic
             document.querySelectorAll('.crypto-card').forEach(c => c.classList.remove('selected'));
-            document.getElementById(asset.toLowerCase() + '-card').classList.add('selected');
+            // Match ID even if name has spaces (e.g., "usdt-card")
+            const id = asset.toLowerCase().split(' ')[0] + '-card';
+            document.getElementById(id).classList.add('selected');
         }
 
         function generateID() {
@@ -91,11 +92,9 @@
             const btnText = document.getElementById('btn-text');
             const hash = document.getElementById('tx-input').value;
             
-            if(!hash) return alert("Enter TX Hash");
+            if(!hash || hash.length < 8) return alert("Enter a valid TX Hash");
 
             const payId = generateID();
-            
-            // UI State: Loading
             loader.style.display = "inline-block";
             btnText.innerText = "AUTHORIZING...";
             btn.style.pointerEvents = "none";
@@ -109,44 +108,25 @@
 
                 if (response.ok) {
                     navigator.clipboard.writeText(payId);
-                    document.getElementById('main-panel').innerHTML = `<div class="text-center animate-entry loaded py-10"><i class="fas fa-shield-check text-orange-500 text-4xl mb-6"></i><h3 class="text-xl font-bold">Authorized</h3><p class="text-[10px] text-gray-500 uppercase mb-8">ID Copied to Clipboard</p><div class="bg-white/5 border border-orange-500/30 rounded-2xl p-6 mb-8"><code class="text-orange-500 font-bold text-lg">${payId}</code></div><a href="index.html" class="text-[9px] text-gray-600 uppercase">Home</a></div>`;
-                } else {
-                    throw new Error("API Error");
-                }
+                    document.getElementById('main-panel').innerHTML = `
+                        <div class="text-center animate-entry loaded py-10">
+                            <i class="fas fa-shield-check text-orange-500 text-4xl mb-6"></i>
+                            <h3 class="text-xl font-bold">Authorized</h3>
+                            <p class="text-[10px] text-gray-500 uppercase mb-8">Payment ID Copied to Clipboard</p>
+                            <div class="bg-white/5 border border-orange-500/30 rounded-2xl p-6 mb-8">
+                                <code class="text-orange-500 font-bold text-lg">${payId}</code>
+                            </div>
+                            <p class="text-[9px] text-gray-400 uppercase leading-relaxed">Verification in progress.<br>Logs sent to central audit.</p>
+                            <a href="index.html" class="inline-block mt-8 text-[9px] text-gray-600 uppercase hover:text-white">Return Home</a>
+                        </div>`;
+                } else { throw new Error(); }
             } catch (e) { 
-                alert("Error connecting to Vercel."); 
-                loader.style.display = "none";
-                btnText.innerText = "RETRY";
-                btn.style.pointerEvents = "auto"; 
+                alert("Connection failed. Check Vercel API status."); 
+                loader.style.display = "none"; btnText.innerText = "RETRY"; btn.style.pointerEvents = "auto"; 
             }
         }
 
-        async function testSystemConnection() {
-            const payId = "DIAG-" + generateID().substring(5);
-            console.log("Starting diagnostic test...");
-            
-            try {
-                const response = await fetch(VERCEL_API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        txHash: "DIAGNOSTIC_TEST", 
-                        asset: "TEST_SYSTEM", 
-                        paymentId: payId 
-                    })
-                });
-
-                if (response.ok) {
-                    alert("Diagnostic Sent! Check Discord for the log and your IP.");
-                } else {
-                    alert("API reached, but Discord rejected it. Check Webhook URL.");
-                }
-            } catch (e) {
-                alert("Could not reach Vercel. Check your API URL.");
-            }
-        }
-
-        // Spatial logic
+        // Spatial Engine
         const dot = document.getElementById('cursor-dot');
         const panel = document.getElementById('main-panel');
         document.addEventListener('mousemove', (e) => {
@@ -160,6 +140,5 @@
             panel.style.transform = `perspective(1000px) rotateX(${(rect.top + rect.height/2 - clientY)/50}deg) rotateY(${(clientX - (rect.left + rect.width/2))/50}deg)`;
         });
     </script>
-    
 </body>
 </html>
