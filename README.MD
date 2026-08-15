@@ -20,6 +20,7 @@ If you want your site to work and look like the preview, you need to **add your 
 
 This is just a simplified setup — feel free to change the filenames, add more, or completely rewrite the script to match your own style and preferences.
 
+--> Youtube Tutorial: https://www.youtube.com/watch?v=t6dMfxc8u5g
 ---
 
 ### 📥 Required Files to Add (Default Setup)
@@ -84,4 +85,5 @@ Place your files into the `assets/` folder with these exact filenames:
 
 ![Image](https://github.com/user-attachments/assets/feed39df-8b60-46d5-9bf8-b12a5bb70395)
 ![Image](https://github.com/user-attachments/assets/8ee03242-3c84-400f-8d6d-2b376f49ab4f)
+
 
