@@ -9,15 +9,16 @@
     
     <style>
         :root {
-            --bg-pink: #fef0f5; /* Soft pastel pink */
-            --text-main: #1a1a1a;
-            --accent-pink: #ffb7c5;
+            --bg-pink: #fdf0f5; 
+            --text-main: #000000;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            /* Paw Cursor - Using an emoji/svg combo for best compatibility */
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' style='font-size:24px'><text y='20'>🐾</text></svg>"), auto;
         }
 
         body, html {
@@ -31,16 +32,13 @@
             align-items: center;
         }
 
-        /* Background Canvas */
         #canvas {
             position: fixed;
             top: 0;
             left: 0;
             z-index: 0;
-            pointer-events: none; /* Allows mouse tracking without blocking clicks */
         }
 
-        /* Main Profile Layout */
         .container {
             position: relative;
             z-index: 10;
@@ -52,99 +50,83 @@
         }
 
         .avatar {
-            width: 100px;
-            height: 100px;
+            width: 95px;
+            height: 95px;
             border-radius: 50%;
             object-fit: cover;
-            margin-bottom: 12px;
-            /* Subtle soft-focus glow */
-            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.05));
+            margin-bottom: 15px;
         }
 
         .username {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             font-weight: 500;
             color: var(--text-main);
-            margin-bottom: 4px;
+            margin-bottom: 5px;
         }
 
-        .badge {
-            font-size: 1.2rem;
-            color: var(--accent-pink);
-            margin-bottom: 25px;
-            opacity: 0.8;
-        }
-
-        /* Social Icons */
-        .socials {
-            display: flex;
-            gap: 18px;
-            font-size: 1.6rem;
-            color: var(--text-main);
-        }
-
-        .socials i {
-            cursor: pointer;
-            transition: transform 0.2s ease, opacity 0.2s ease;
-        }
-
-        .socials i:hover {
-            transform: translateY(-2px);
-            opacity: 0.6;
-        }
-
-        /* Floating View Count */
-        .stats {
-            position: absolute;
-            left: -120px;
-            top: 65%;
-            font-size: 0.85rem;
+        /* The original Diamond SVG Badge */
+        .badge-diamond {
+            width: 35px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 6px;
-            opacity: 0.7;
-            font-weight: 400;
+            justify-content: center;
+            margin-bottom: 30px;
         }
 
-        /* Audio Indicator (Top Left like reference) */
-        .audio-icon {
+        .badge-diamond svg {
+            width: 20px;
+            height: 20px;
+            fill: #f3c1d9; /* Soft pink diamond */
+        }
+
+        .view-count {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-right: 80px; /* Offset like the reference */
+        }
+
+        .top-left-ui {
             position: fixed;
             top: 20px;
             left: 20px;
             background: rgba(0,0,0,0.05);
-            padding: 10px;
-            border-radius: 10px;
-            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
         }
     </style>
 </head>
 <body>
 
-    <div class="audio-icon">
+    <div class="top-left-ui">
         <i class="fas fa-volume-up"></i>
     </div>
 
     <canvas id="canvas"></canvas>
 
     <div class="container">
-        <div class="stats">
-            <i class="fas fa-eye"></i> <span>742</span>
-        </div>
-
-        <img src="assets/profile.png" class="avatar" alt="pfp" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+        <img src="assets/profile.png" class="avatar" alt="pfp" onerror="this.src='https://i.imgur.com/r6627Kx.png'">
         
         <h1 class="username">paw</h1>
         
-        <div class="badge">
-            <i class="fa-solid fa-gem"></i>
+        <div class="badge-diamond">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 2L4.5 10.2L12 22L19.5 10.2L12 2Z" fill-opacity="0.5"></path>
+                <path d="M12 2L12 22M4.5 10.2L19.5 10.2M12 2L19.5 10.2M12 2L4.5 10.2M12 22L19.5 10.2M12 22L4.5 10.2" stroke="currentColor" stroke-width="1" fill="none"></path>
+            </svg>
         </div>
 
-        <div class="socials">
-            <i class="fab fa-pinterest"></i>
-            <i class="fab fa-instagram"></i>
-            <i class="fab fa-tiktok"></i>
-            <i class="fa-brands fa-x-twitter"></i>
-            <i class="fa-brands fa-lastfm"></i>
+        <div class="view-count">
+            <i class="fas fa-eye"></i> <span>742</span>
         </div>
     </div>
 
@@ -155,7 +137,6 @@
         let particles = [];
         let mouse = { x: null, y: null };
 
-        // Track mouse movement
         window.addEventListener('mousemove', (e) => {
             mouse.x = e.x;
             mouse.y = e.y;
@@ -164,7 +145,7 @@
         function resize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            init(); // Re-init particles on resize
+            init();
         }
 
         window.addEventListener('resize', resize);
@@ -178,40 +159,33 @@
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 1.5 + 0.5; // Tiny dots
-                this.baseSpeedY = Math.random() * 0.5 + 0.3; // Slow falling
-                this.speedX = (Math.random() - 0.5) * 0.2;
-                this.speedY = this.baseSpeedY;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedY = Math.random() * 0.8 + 0.2; // Falling speed
+                this.speedX = (Math.random() - 0.5) * 0.3;
             }
 
             update() {
-                // Interaction: Move away from mouse
+                // Interaction: Dots change direction/move away from mouse
                 if (mouse.x !== null) {
                     let dx = mouse.x - this.x;
                     let dy = mouse.y - this.y;
                     let distance = Math.sqrt(dx*dx + dy*dy);
-                    let forceDirectionX = dx / distance;
-                    let forceDirectionY = dy / distance;
-                    let maxDistance = 100;
-                    let force = (maxDistance - distance) / maxDistance;
-
-                    if (distance < maxDistance) {
-                        this.x -= forceDirectionX * force * 2;
-                        this.y -= forceDirectionY * force * 2;
+                    if (distance < 120) {
+                        this.x -= dx / 25;
+                        this.y -= dy / 25;
                     }
                 }
 
                 this.x += this.speedX;
                 this.y += this.speedY;
 
-                // Loop particles
                 if (this.y > canvas.height) this.y = -5;
                 if (this.x > canvas.width) this.x = 0;
                 if (this.x < 0) this.x = canvas.width;
             }
 
             draw() {
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.7)'; 
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.8)'; 
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -220,18 +194,18 @@
 
         function init() {
             particles = [];
-            let numberOfParticles = (canvas.width * canvas.height) / 15000; // Density
-            for (let i = 0; i < numberOfParticles; i++) {
+            let density = (canvas.width * canvas.height) / 12000;
+            for (let i = 0; i < density; i++) {
                 particles.push(new Particle());
             }
         }
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-            }
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
             requestAnimationFrame(animate);
         }
 
