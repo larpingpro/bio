@@ -72,12 +72,11 @@ Place your files into the `assets/` folder with these exact filenames:
 - `verified.gif`
 
 ---
-![Image](https://github.com/user-attachments/assets/a0ba6f75-bcab-4560-9671-e3e87a6e2c06)
 ✅ **Important:**  
 - File extensions and names must match exactly for the current code to recognize them  
 - Of course, you are free to **change the script**, **use your own filenames**, **add/remove anything**, or fully customize how assets are loaded — this is just a working default
 
-🧠 Have fun building your own style!
+🧠 Have fun building your own style! ![Image](https://github.com/user-attachments/assets/a0ba6f75-bcab-4560-9671-e3e87a6e2c06)
 
 ## 🌐 Community & Support
 - 💬 Join our Discord: [discord.gg/motiongoats](https://discord.gg/motiongoats)
