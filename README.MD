@@ -1,4 +1,5 @@
-## A fully open-source site inspired by guns.lol and fakecrime.bio. ![Image](https://github.com/user-attachments/assets/a0ba6f75-bcab-4560-9671-e3e87a6e2c06)
+## A fully open-source site inspired by guns.lol and fakecrime.bio.
+![Image](https://github.com/user-attachments/assets/a0ba6f75-bcab-4560-9671-e3e87a6e2c06)
 ![Image](https://github.com/user-attachments/assets/157b3b78-a61a-446b-8fd1-4f96ffaa532e)
 
 ## 🎨 Customize it your way
