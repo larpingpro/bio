@@ -1,5 +1,5 @@
 ## A fully open-source site inspired by guns.lol and fakecrime.bio.
-![Image](https://github.com/user-attachments/assets/a0ba6f75-bcab-4560-9671-e3e87a6e2c06)
+                       ![Image](https://github.com/user-attachments/assets/a0ba6f75-bcab-4560-9671-e3e87a6e2c06)
 
 ## 🎨 Customize it your way
 If you want to change the **music**, **background**, or **cursor**, just replace the corresponding files in the `assets/` folder.  
