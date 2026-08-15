@@ -45,7 +45,7 @@ Place your files into the `assets/` folder with these exact filenames:
 > 🎬 Use tools like [ClipConverter.cc](https://www.clipconverter.cc/) or [YTMP3.cc](https://ytmp3.cc/) to convert YouTube videos into `.mp4` or `.mov`.
 
 #### 🖼️ Icons & Cursors (PNG)
-- `cursor.png`
+- `custom_cursor.png`
 - `custom_cursor.png`
 - `github.png`
 - `discord.png`
