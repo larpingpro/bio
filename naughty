@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="refresh" content="0; url=https://matias.me/nsfw/">
+    <title>Redirecting...</title>
+</head>
+<body>
+    <p>Redirecting...</p>
+    <script>
+        window.location.href = "https://matias.me/nsfw/";
+    </script>
+</body>
+</html>
