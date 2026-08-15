@@ -3,164 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HyprShort | Animated Launcher</title>
+    <title>HyprShort | V3</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600&display=swap');
-
-        :root {
-            --accent: #89b4fa;
-            --bg: #11111b;
-            --surface: rgba(30, 30, 46, 0.6);
+        
+        :root { 
+            --accent: #89b4fa; 
+            --bg: #0b0b10; 
+            --surface: rgba(24, 24, 37, 0.7); 
         }
 
         body {
             background-color: var(--bg);
-            background-image: radial-gradient(circle at 50% -20%, #1e1e2e 0%, #11111b 80%);
-            color: #cdd6f4;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(137, 180, 250, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(243, 139, 168, 0.05) 0px, transparent 50%);
+            color: #cdd6f4; 
             font-family: 'Outfit', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding-top: 10vh;
-            overflow-x: hidden;
-        }
-
-        .glass {
-            background: var(--surface);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-        }
-
-        /* The "Stagger" Animation */
-        @keyframes revealItem {
-            0% { opacity: 0; transform: translateY(-10px) scale(0.95); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .stagger-item {
-            opacity: 0;
-            animation: revealItem 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-
-        /* Hover Glow */
-        .service-item {
-            position: relative;
-            transition: all 0.3s ease;
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
             overflow: hidden;
         }
-        .service-item:hover {
-            background: rgba(137, 180, 250, 0.15);
-            padding-left: 1.8rem;
-        }
-        .service-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 4px;
-            background: var(--accent);
-            transform: scaleY(0);
-            transition: transform 0.3s ease;
-        }
-        .service-item:hover::before {
-            transform: scaleY(1);
+
+        /* The Initial Slide-Down for the whole Bar */
+        @keyframes barSlideDown {
+            0% { transform: translateY(-120%); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
         }
 
-        .custom-scroll::-webkit-scrollbar { width: 4px; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #313244; border-radius: 10px; }
-        
-        /* Smooth Scale for Modal */
+        .main-container {
+            animation: barSlideDown 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            width: 100%;
+            max-width: 500px;
+            margin-top: 5vh;
+        }
+
+        .glass { 
+            background: var(--surface); 
+            backdrop-filter: blur(25px); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Staggered Items Animation */
+        @keyframes itemReveal {
+            0% { opacity: 0; transform: translateX(-10px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        .stagger {
+            opacity: 0;
+            animation: itemReveal 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .service-item {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .service-item:hover {
+            background: rgba(137, 180, 250, 0.12);
+            padding-left: 2rem;
+            color: #fff;
+        }
+
+        .service-item::after {
+            content: '';
+            position: absolute;
+            left: 0; top: 25%; height: 50%; width: 4px;
+            background: var(--accent);
+            border-radius: 0 4px 4px 0;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .service-item:hover::after { transform: scaleX(1); }
+
+        /* Modal Scale Animation */
         .scale-in { animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
-        @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
+        @keyframes scaleIn { 
+            from { opacity: 0; transform: scale(0.85) translateY(20px); } 
+            to { opacity: 1; transform: scale(1) translateY(0); } 
         }
 
         .mono { font-family: 'JetBrains Mono', monospace; }
+        
+        .glow-button {
+            box-shadow: 0 0 15px rgba(137, 180, 250, 0.2);
+        }
+        .glow-button:hover {
+            box-shadow: 0 0 25px rgba(137, 180, 250, 0.4);
+        }
     </style>
 </head>
-<body>
+<body class="p-6">
 
-    <div class="w-full max-w-lg px-6">
-        <div class="glass rounded-2xl p-4 mb-4 flex items-center gap-4 transition-all duration-500 hover:border-blue-500/40">
-            <div class="flex gap-1.5">
-                <div class="w-3 h-3 rounded-full bg-[#f38ba8]"></div>
-                <div class="w-3 h-3 rounded-full bg-[#fab387]"></div>
-                <div class="w-3 h-3 rounded-full bg-[#a6e3a1]"></div>
+    <div class="main-container">
+        <div class="glass rounded-2xl p-5 mb-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="flex gap-1.5">
+                    <div class="w-3 h-3 rounded-full bg-[#f38ba8]"></div>
+                    <div class="w-3 h-3 rounded-full bg-[#fab387]"></div>
+                    <div class="w-3 h-3 rounded-full bg-[#a6e3a1]"></div>
+                </div>
+                <span class="text-xs font-bold mono text-gray-500 ml-2 tracking-tighter">HYPR_SHORTNER_V3</span>
             </div>
-            <input type="text" id="serviceSearch" placeholder="Type to search shorteners..." 
-                   class="bg-transparent border-none outline-none w-full text-lg font-light placeholder-gray-600 mono">
+            <div class="text-[10px] mono text-blue-400 bg-blue-400/10 px-2 py-1 rounded border border-blue-400/20">STATUS: LIVE</div>
         </div>
 
-        <div id="menuContainer" class="glass rounded-2xl overflow-hidden max-h-[60vh] overflow-y-auto custom-scroll">
-            <div id="serviceList" class="flex flex-col py-2">
+        <div class="glass rounded-3xl overflow-hidden shadow-2xl">
+            <div id="serviceList" class="flex flex-col">
                 </div>
         </div>
+    </div>
 
-        <div id="overlay" class="fixed inset-0 bg-[#000]/40 backdrop-blur-md hidden flex items-center justify-center z-50 p-6">
-            <div id="modal" class="glass w-full max-w-md rounded-3xl p-8 border border-white/10 relative">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 id="activeService" class="text-blue-300 font-bold uppercase tracking-widest text-xs mono">BIT.LY</h2>
-                    <button onclick="closeModal()" class="text-gray-500 hover:text-white transition-colors">✕</button>
+    <div id="overlay" class="fixed inset-0 bg-[#000]/80 backdrop-blur-md hidden flex items-center justify-center z-50 p-6">
+        <div id="modal" class="glass w-full max-w-md rounded-[2.5rem] p-10 border border-white/10 relative">
+            <button onclick="closeModal()" class="absolute top-6 right-8 text-gray-500 hover:text-white transition-colors">✕</button>
+            
+            <h2 id="activeService" class="text-blue-300 font-bold uppercase tracking-[0.3em] text-[10px] mono mb-8">BIT.LY</h2>
+
+            <div class="space-y-6">
+                <div class="relative">
+                    <label class="text-[10px] text-gray-500 uppercase ml-2 mb-2 block mono">Target URL</label>
+                    <input type="text" id="longUrl" placeholder="roblox.com/games/..." 
+                           class="w-full bg-black/40 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500/50 text-sm mono text-gray-200">
+                </div>
+                
+                <div class="relative">
+                    <label class="text-[10px] text-gray-500 uppercase ml-2 mb-2 block mono">Custom Alias</label>
+                    <input type="text" id="slug" placeholder="optional-name" 
+                           class="w-full bg-black/40 border border-white/10 rounded-2xl p-5 outline-none focus:border-blue-500/50 text-sm mono text-gray-200">
                 </div>
 
-                <div class="space-y-6">
-                    <div class="group">
-                        <label class="text-[10px] text-gray-500 uppercase ml-2 mb-1 block">Destination URL</label>
-                        <input type="text" id="longUrl" placeholder="https://roblox.com/..." 
-                               class="w-full bg-black/30 border border-white/5 rounded-xl p-4 outline-none focus:border-blue-500/50 transition-all text-sm mono">
-                    </div>
-                    
-                    <div class="group">
-                        <label class="text-[10px] text-gray-500 uppercase ml-2 mb-1 block">Custom Slug</label>
-                        <input type="text" id="slug" placeholder="cool-link-123" 
-                               class="w-full bg-black/30 border border-white/5 rounded-xl p-4 outline-none focus:border-blue-500/50 transition-all text-sm mono">
-                    </div>
+                <button id="genBtn" onclick="shortenProcess()" class="glow-button w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-5 rounded-2xl transition-all transform active:scale-95 mono text-xs tracking-widest">
+                    GENERATE_HYPERLINK
+                </button>
 
-                    <button onclick="generateShortLink()" class="w-full bg-blue-500 hover:bg-blue-400 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-500/20 transition-all active:scale-95">
-                        GENERATE HYPERLINK
-                    </button>
-
-                    <div id="resultBox" class="hidden animate__animated animate__fadeIn">
-                        <label class="text-[10px] text-green-400 uppercase ml-2 mb-1 block">Discord Ready Format</label>
-                        <textarea id="finalOutput" readonly class="w-full bg-black/50 border border-green-500/20 rounded-xl p-4 text-xs mono h-24 resize-none text-gray-300"></textarea>
-                        <button onclick="copyToClipboard()" class="w-full mt-2 text-[10px] text-blue-400 hover:text-blue-300 transition-colors uppercase font-bold">Copy to Clipboard</button>
-                    </div>
+                <div id="resultBox" class="hidden space-y-4 pt-6 mt-2 animate__animated animate__fadeIn">
+                    <div class="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+                    <p class="text-[10px] text-green-400 font-bold tracking-widest uppercase mono text-center">Output Snippet</p>
+                    <textarea id="finalOutput" readonly class="w-full bg-black/60 border border-green-500/20 rounded-2xl p-5 text-[11px] mono h-28 resize-none text-gray-300 leading-relaxed"></textarea>
+                    <button onclick="copyToClipboard()" id="copyBtn" class="w-full py-3 text-[10px] text-blue-400 font-bold hover:bg-blue-400/10 rounded-xl transition-all mono uppercase tracking-[0.2em]">Copy to Clipboard</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const services = ["is.gd", "TinyURL", "Bit.ly", "Rebrand.ly", "Cutt.ly", "click.ly", "tiny.cc", "shorter.me", "shorter.gg", "spoo.me", "shorturl.asia", "reurl.cc", "href.li", "HyperHost", "l8.nu", "rb.gy", "t2m.io", "clck.ru", "v.gd", "short.io", "kurze.links"];
+        const workingServices = [
+            { name: "spoo.me", method: "spoo" },
+            { name: "is.gd", method: "isgd" },
+            { name: "v.gd", method: "isgd" },
+            { name: "tinyurl.com", method: "tiny" }
+        ];
 
         const serviceList = document.getElementById('serviceList');
 
-        // Create the cascading animation effect
-        function renderServices() {
-            serviceList.innerHTML = '';
-            services.forEach((name, index) => {
+        // Render services with a stagger
+        window.onload = () => {
+            workingServices.forEach((s, i) => {
                 const div = document.createElement('div');
-                div.className = "service-item stagger-item p-4 cursor-pointer text-sm font-medium border-b border-white/5 last:border-none";
-                div.innerText = name;
-                // Add a staggered delay for each item
-                div.style.animationDelay = `${index * 0.04}s`; 
-                div.onclick = () => openModal(name);
+                div.className = "service-item stagger p-6 text-sm font-medium";
+                div.style.animationDelay = `${0.4 + (i * 0.1)}s`; // Start after bar slides down
+                div.innerHTML = `<span class="opacity-30 mr-4 mono font-bold italic">0${i+1}</span> ${s.name}`;
+                div.onclick = () => openModal(s);
                 serviceList.appendChild(div);
             });
-        }
+        };
+
+        let selectedService = null;
 
         function openModal(service) {
-            document.getElementById('activeService').innerText = service;
-            const overlay = document.getElementById('overlay');
-            const modal = document.getElementById('modal');
-            
-            overlay.classList.remove('hidden');
-            modal.classList.add('scale-in');
+            selectedService = service;
+            document.getElementById('activeService').innerText = service.name;
+            document.getElementById('overlay').classList.remove('hidden');
+            document.getElementById('modal').classList.add('scale-in');
         }
 
         function closeModal() {
@@ -171,56 +192,59 @@
 
         function fixUrl(url) {
             let fixed = url.trim();
-            // Fixing Roblox typos
-            fixed = fixed.replace(/robiox\.com/gi, 'roblox.com');
-            fixed = fixed.replace(/roblox\.com\.ge/gi, 'roblox.com');
-            
+            fixed = fixed.replace(/robiox\.com/gi, 'roblox.com').replace(/roblox\.com\.ge/gi, 'roblox.com');
             if (!fixed.startsWith('http')) fixed = 'https://' + fixed;
-            if (fixed.includes('roblox.com') && !fixed.includes('www.')) {
-                fixed = fixed.replace('roblox.com', 'www.roblox.com');
-            }
+            if (fixed.includes('roblox.com') && !fixed.includes('www.')) fixed = fixed.replace('roblox.com', 'www.roblox.com');
             return fixed;
         }
 
-        function generateShortLink() {
+        async function shortenProcess() {
             const rawUrl = document.getElementById('longUrl').value;
-            const slug = document.getElementById('slug').value;
-            const service = document.getElementById('activeService').innerText;
-
+            const alias = document.getElementById('slug').value;
+            const btn = document.getElementById('genBtn');
+            
             if (!rawUrl) return;
+            const fixedUrl = fixUrl(rawUrl);
+            btn.disabled = true;
+            btn.innerHTML = 'SYNCING_WITH_SERVER...';
 
-            const fixedLong = fixUrl(rawUrl);
-            const randomID = Math.random().toString(36).substring(7);
-            const shortUrl = `https://${service.toLowerCase()}/${slug || randomID}`;
+            let short = "";
+            try {
+                if (selectedService.method === "spoo") {
+                    const fd = new FormData(); fd.append('url', fixedUrl); if(alias) fd.append('alias', alias);
+                    const res = await fetch('https://spoo.me/', { method: 'POST', body: fd, headers: {'Accept': 'application/json'} });
+                    const data = await res.json(); short = data.short_url;
+                } else if (selectedService.method === "isgd") {
+                    const res = await fetch(`https://is.gd/create.php?format=json&url=${encodeURIComponent(fixedUrl)}${alias ? '&shorturl='+alias : ''}`);
+                    const data = await res.json(); short = data.shorturl || data.errormessage;
+                } else {
+                    const res = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(fixedUrl)}`);
+                    short = await res.text();
+                }
 
-            // Requested Discord Format: [https_:_//site](shortlink)
-            const displayLabel = fixedLong.replace('https://', 'https_:_//');
-            const finalFormat = `[${displayLabel}](${shortUrl})`;
-
-            document.getElementById('finalOutput').value = finalFormat;
-            document.getElementById('resultBox').classList.remove('hidden');
+                if (short && short.startsWith('http')) {
+                    const label = fixedUrl.replace('https://', 'https_:_//');
+                    document.getElementById('finalOutput').value = `[${label}](${short})`;
+                    document.getElementById('resultBox').classList.remove('hidden');
+                } else {
+                    alert("Service Busy or Alias Taken.");
+                }
+            } catch (e) {
+                alert("Connection failed.");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'GENERATE_HYPERLINK';
+            }
         }
 
         function copyToClipboard() {
             const el = document.getElementById('finalOutput');
             el.select();
             document.execCommand('copy');
-            alert("Copied!");
+            const cBtn = document.getElementById('copyBtn');
+            cBtn.innerText = "COPIED_TO_CLIPBOARD";
+            setTimeout(() => { cBtn.innerText = "Copy to Clipboard"; }, 2000);
         }
-
-        // Search filtering logic
-        document.getElementById('serviceSearch').addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            document.querySelectorAll('.service-item').forEach(item => {
-                const isVisible = item.innerText.toLowerCase().includes(term);
-                item.style.display = isVisible ? 'block' : 'none';
-                // Reset animation delay for filtered items to keep it smooth
-                item.style.animationDelay = '0s'; 
-            });
-        });
-
-        // Initialize
-        window.onload = renderServices;
     </script>
 </body>
 </html>
