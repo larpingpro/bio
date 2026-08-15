@@ -7,60 +7,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --exodus-orange: #ff9500;
-            --glass-core: rgba(255, 255, 255, 0.02);
-            --border-base: rgba(255, 255, 255, 0.08);
-        }
-
-        body {
-            background-color: #000;
-            color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
-            margin: 0; overflow: hidden; height: 100vh; cursor: none;
-        }
-
-        .spatial-panel {
-            background: var(--glass-core);
-            backdrop-filter: blur(30px) saturate(150%);
-            -webkit-backdrop-filter: blur(30px) saturate(150%);
-            border: 1px solid var(--border-base);
-            border-radius: 40px;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.2s ease-out;
-        }
-
-        /* Recoded Proximity Glow */
-        .spatial-panel::before {
-            content: ""; position: absolute; inset: -1.5px; border-radius: 40px; padding: 1.5px;
-            background: radial-gradient(450px circle at var(--gx) var(--gy), rgba(255, 149, 0, var(--proximity-opacity, 0)), transparent 100%);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; z-index: 5;
-        }
-
+        :root { --exodus-orange: #ff9500; --glass-core: rgba(255, 255, 255, 0.02); --border-base: rgba(255, 255, 255, 0.08); }
+        body { background-color: #000; color: #fff; font-family: -apple-system, sans-serif; margin: 0; overflow: hidden; height: 100vh; cursor: none; }
+        .spatial-panel { background: var(--glass-core); backdrop-filter: blur(30px); border: 1px solid var(--border-base); border-radius: 40px; position: relative; transform-style: preserve-3d; transition: transform 0.2s ease-out; }
+        .spatial-panel::before { content: ""; position: absolute; inset: -1.5px; border-radius: 40px; padding: 1.5px; background: radial-gradient(450px circle at var(--gx) var(--gy), rgba(255, 149, 0, var(--proximity-opacity, 0)), transparent 100%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; pointer-events: none; z-index: 5; }
         .animate-entry { opacity: 0; transform: scale(0.97) translateY(20px); transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
         .animate-entry.loaded { opacity: 1; transform: scale(1) translateY(0); }
-
-        .crypto-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px; padding: 16px; transition: all 0.3s ease;
-        }
+        .crypto-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; padding: 16px; transition: 0.3s; }
         .crypto-card.selected { border-color: var(--exodus-orange); background: rgba(255, 149, 0, 0.05); }
-
-        .btn-exodus {
-            background: linear-gradient(180deg, #ffb347 0%, #ff9500 100%);
-            color: #000; font-weight: 800; border-radius: 18px; padding: 16px 0;
-            box-shadow: 0 10px 30px rgba(255, 149, 0, 0.1);
-        }
-
-        #cursor-dot {
-            position: fixed; width: 6px; height: 6px; background: var(--exodus-orange);
-            border-radius: 50%; pointer-events: none; z-index: 9999;
-            transform: translate(-50%, -50%); box-shadow: 0 0 15px var(--exodus-orange);
-        }
+        .btn-exodus { background: linear-gradient(180deg, #ffb347 0%, #ff9500 100%); color: #000; font-weight: 800; border-radius: 18px; padding: 16px 0; }
+        #cursor-dot { position: fixed; width: 6px; height: 6px; background: var(--exodus-orange); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); box-shadow: 0 0 15px var(--exodus-orange); }
     </style>
 </head>
 <body>
@@ -69,63 +25,39 @@
 
     <nav class="relative z-50 px-16 py-8 flex justify-between items-center">
         <a href="index.html" class="text-xl font-bold tracking-tight">larping<span class="text-[#ff9500]">.pro</span></a>
-        <div class="text-[9px] font-black uppercase tracking-[0.4em] text-gray-700">Audit Protocol</div>
     </nav>
 
     <main class="flex items-center justify-center h-[calc(100vh-150px)] px-16">
         <div class="spatial-panel w-full max-w-[480px] p-10 animate-entry" id="main-panel">
-            
             <div id="checkout-view">
                 <div class="flex justify-between items-center mb-8">
-                    <h2 class="text-3xl font-bold tracking-tighter italic">Checkout</h2>
-                    <div class="text-right">
-                        <span class="text-3xl font-black text-orange-500 italic leading-none">$10</span>
-                        <p class="text-[9px] font-bold text-gray-600 uppercase">Life License</p>
-                    </div>
+                    <h2 class="text-3xl font-bold italic">Checkout</h2>
+                    <span class="text-3xl font-black text-orange-500 italic">$10</span>
                 </div>
 
                 <div class="space-y-3 mb-8">
-                    <div id="sol-card" class="crypto-card group cursor-pointer" onclick="selectAsset('SOL', 'YOUR_SOLANA_ADDRESS')">
-                        <div class="flex justify-between items-center">
-                            <span class="text-[10px] font-black text-purple-400 uppercase tracking-widest">Solana</span>
-                            <i class="fas fa-wallet text-[10px] text-gray-600 group-hover:text-white transition-colors"></i>
-                        </div>
-                    </div>
-                    <div id="eth-card" class="crypto-card group cursor-pointer" onclick="selectAsset('ETH', 'YOUR_ETH_ADDRESS')">
-                        <div class="flex justify-between items-center">
-                            <span class="text-[10px] font-black text-blue-400 uppercase tracking-widest">Ethereum</span>
-                            <i class="fas fa-wallet text-[10px] text-gray-600 group-hover:text-white transition-colors"></i>
-                        </div>
-                    </div>
+                    <div id="sol-card" class="crypto-card cursor-pointer" onclick="selectAsset('SOL', 'YOUR_SOL_ADDR')">SOLANA</div>
+                    <div id="eth-card" class="crypto-card cursor-pointer" onclick="selectAsset('ETH', 'YOUR_ETH_ADDR')">ETHEREUM</div>
                 </div>
 
                 <div id="payment-zone" class="hidden">
-                    <div class="bg-black/40 rounded-xl p-4 mb-6 border border-white/5 flex justify-between items-center">
+                    <div class="bg-black/40 rounded-xl p-4 mb-4 border border-white/5 flex justify-between">
                         <code id="addr-display" class="text-[10px] text-gray-400 truncate mr-4">...</code>
-                        <button onclick="copyToClipboard(document.getElementById('addr-display').innerText)" class="text-orange-500 text-xs hover:text-white transition-colors">
-                            <i class="fas fa-copy"></i>
-                        </button>
+                        <button onclick="navigator.clipboard.writeText(document.getElementById('addr-display').innerText)" class="text-orange-500 text-xs"><i class="fas fa-copy"></i></button>
                     </div>
-
-                    <input type="text" id="tx-input" placeholder="Enter Transaction Hash (TXID)" 
-                           class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-xs focus:outline-none focus:border-orange-500 transition-all mb-4 text-white">
-                    
-                    <button onclick="submitPayment()" id="submit-btn" class="w-full btn-exodus text-[10px] font-black uppercase tracking-widest">
-                        Submit for Verification
-                    </button>
+                    <input type="text" id="tx-input" placeholder="TX Hash" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-xs mb-4 text-white focus:border-orange-500 outline-none">
+                    <button onclick="submitPayment()" id="submit-btn" class="w-full btn-exodus text-[10px] uppercase tracking-widest">Verify Payment</button>
                 </div>
             </div>
-
-            <a href="index.html" class="block text-center mt-6 text-[9px] font-black text-gray-600 uppercase tracking-[0.3em] hover:text-white transition-colors">← Cancel Authorization</a>
+            <a href="index.html" class="block text-center mt-6 text-[9px] text-gray-600 uppercase tracking-widest">← Cancel</a>
         </div>
     </main>
 
     <script>
         let selectedAsset = "";
+        const VERCEL_API_URL = 'https://mains-blush.vercel.app/api/notify';
 
-        window.addEventListener('DOMContentLoaded', () => {
-            document.querySelector('.animate-entry').classList.add('loaded');
-        });
+        window.addEventListener('DOMContentLoaded', () => document.querySelector('.animate-entry').classList.add('loaded'));
 
         function selectAsset(asset, addr) {
             selectedAsset = asset;
@@ -135,63 +67,37 @@
             document.getElementById(asset.toLowerCase() + '-card').classList.add('selected');
         }
 
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text);
-        }
-
-        function generatePaymentID() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let res = '';
-            for (let i = 0; i < 16; i++) {
-                if (i > 0 && i % 4 === 0) res += '-';
-                res += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return res;
+        function generateID() {
+            const c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let r = '';
+            for(let i=0; i<16; i++) { if(i>0 && i%4===0) r+='-'; r += c[Math.floor(Math.random()*c.length)]; }
+            return r;
         }
 
         async function submitPayment() {
             const btn = document.getElementById('submit-btn');
             const hash = document.getElementById('tx-input').value;
-            
-            if (!hash || hash.length < 8) return alert("Please enter a valid TX hash.");
+            if(!hash) return alert("Enter TX Hash");
 
-            const payId = generatePaymentID();
-            btn.innerText = "UPLOADING LOGS...";
+            const payId = generateID();
+            btn.innerText = "AUTHORIZING...";
             btn.style.pointerEvents = "none";
 
             try {
-                const response = await fetch('/api/notify', {
+                const response = await fetch(VERCEL_API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ txHash: hash, asset: selectedAsset, paymentId: payId })
                 });
 
                 if (response.ok) {
-                    copyToClipboard(payId);
-                    document.getElementById('main-panel').innerHTML = `
-                        <div class="text-center animate-entry loaded py-10">
-                            <i class="fas fa-shield-check text-orange-500 text-4xl mb-6"></i>
-                            <h3 class="text-xl font-bold mb-2">Logs Authorized</h3>
-                            <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-8">Payment ID Copied to Clipboard</p>
-                            <div class="bg-white/5 border border-orange-500/30 rounded-2xl p-6 mb-8">
-                                <code class="text-orange-500 font-bold tracking-[0.2em] text-lg">${payId}</code>
-                            </div>
-                            <p class="text-[9px] text-gray-400 uppercase leading-relaxed">
-                                Our automated system is verifying the hash.<br>
-                                Keep your ID safe for support.
-                            </p>
-                            <a href="index.html" class="inline-block mt-10 text-[9px] font-black text-gray-600 uppercase tracking-widest hover:text-white transition-colors">Return to Dashboard</a>
-                        </div>
-                    `;
+                    navigator.clipboard.writeText(payId);
+                    document.getElementById('main-panel').innerHTML = `<div class="text-center animate-entry loaded py-10"><i class="fas fa-shield-check text-orange-500 text-4xl mb-6"></i><h3 class="text-xl font-bold">Authorized</h3><p class="text-[10px] text-gray-500 uppercase mb-8">ID Copied to Clipboard</p><div class="bg-white/5 border border-orange-500/30 rounded-2xl p-6 mb-8"><code class="text-orange-500 font-bold text-lg">${payId}</code></div><a href="index.html" class="text-[9px] text-gray-600 uppercase">Home</a></div>`;
                 }
-            } catch (e) {
-                alert("Network error. Try again.");
-                btn.innerText = "RETRY";
-                btn.style.pointerEvents = "auto";
-            }
+            } catch (e) { alert("Error connecting to Vercel."); btn.innerText = "RETRY"; btn.style.pointerEvents = "auto"; }
         }
 
-        // Spatial Engine
+        // Spatial logic
         const dot = document.getElementById('cursor-dot');
         const panel = document.getElementById('main-panel');
         document.addEventListener('mousemove', (e) => {
@@ -200,8 +106,8 @@
             const rect = panel.getBoundingClientRect();
             panel.style.setProperty('--gx', `${clientX - rect.left}px`);
             panel.style.setProperty('--gy', `${clientY - rect.top}px`);
-            const distance = Math.sqrt(Math.pow(clientX - (rect.left + rect.width / 2), 2) + Math.pow(clientY - (rect.top + rect.height / 2), 2));
-            panel.style.setProperty('--proximity-opacity', Math.max(0, 1 - (distance / 500)));
+            const dist = Math.sqrt(Math.pow(clientX - (rect.left + rect.width / 2), 2) + Math.pow(clientY - (rect.top + rect.height / 2), 2));
+            panel.style.setProperty('--proximity-opacity', Math.max(0, 1 - (dist / 500)));
             panel.style.transform = `perspective(1000px) rotateX(${(rect.top + rect.height/2 - clientY)/50}deg) rotateY(${(clientX - (rect.left + rect.width/2))/50}deg)`;
         });
     </script>
