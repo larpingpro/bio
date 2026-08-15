@@ -46,7 +46,6 @@ Place your files into the `assets/` folder with these exact filenames:
 
 #### 🖼️ Icons & Cursors (PNG)
 - `custom_cursor.png`
-- `custom_cursor.png`
 - `github.png`
 - `discord.png`
 - `youtube.png`
