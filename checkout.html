@@ -136,7 +136,7 @@
             panel.style.setProperty('--gx', `${clientX - rect.left}px`);
             panel.style.setProperty('--gy', `${clientY - rect.top}px`);
             const dist = Math.sqrt(Math.pow(clientX - (rect.left + rect.width / 2), 2) + Math.pow(clientY - (rect.top + rect.height / 2), 2));
-            panel.style.setProperty('--proximity-opacity', Math.max(0, 1 - (dist / 500)));
+            panel.style.setProperty('--proximity-opacity', Math.max(0, 1 - (dist / 200)));
             panel.style.transform = `perspective(300px) rotateX(${(rect.top + rect.height/2 - clientY)/50}deg) rotateY(${(clientX - (rect.left + rect.width/2))/50}deg)`;
         });
     </script>
