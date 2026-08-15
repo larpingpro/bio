@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>&gt;..haru..&lt; ♱ spacehey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Silkscreen:wght@400;700&family=Pirata+One&family=UnifrakturCook:wght@700&family=Creepster&family=Nosifer&family=Jacquard+12&family=Eater&family=Special+Elite&display=swap" rel="stylesheet" />
+<style>
+  /* ============================================================
+     >..haru..<  · homemade horror-emo spacehey
+     real datamosh raster bg + hand-made y2k gifs
+     ============================================================ */
+  :root{
+    --crim:#c01818; --red:#ff1a1a; --pink:#ff5a6a; --bord:#7a0d0d; --bone:#cfc6c6;
+  }
+  *{box-sizing:border-box}
+  html{background:#070304}
+  body{
+    margin:0;color:var(--crim);
+    font-family:'VT323',monospace;font-size:17px;line-height:1.1;
+    /* ANIMATED glitching datamosh — the webp itself flickers/tears frame to frame */
+    background:#0a0204 url("assets/datamosh-anim.webp") repeat;
+    background-size:560px 560px;
+  }
+  /* woman laying across the very top of the bio */
+  .topbanner{width:100%;line-height:0;overflow:hidden;position:relative;z-index:2;
+    border-bottom:2px solid var(--bord);box-shadow:0 8px 22px rgba(0,0,0,.75)}
+  .topbanner img{width:100%;height:210px;object-fit:cover;object-position:center 26%;
+    filter:grayscale(.1) contrast(1.06) brightness(.92)}
+  /* glowing demon eyes peering from behind everything */
+  .bgeyes{position:fixed;top:150px;left:50%;transform:translateX(-50%);width:1100px;max-width:100vw;
+    z-index:0;opacity:.34;pointer-events:none;mix-blend-mode:screen;filter:saturate(1.5) contrast(1.25)}
+
+  /* moving scanline tear over everything */
+  body::after{content:"";position:fixed;inset:0;z-index:998;pointer-events:none;opacity:.4;
+    background:repeating-linear-gradient(0deg,rgba(0,0,0,.55) 0 1px,transparent 1px 3px);
+    animation:tear 5s linear infinite}
+  @keyframes tear{to{transform:translateY(3px)}}
+  a{color:var(--red);text-decoration:none}
+  a:hover{color:var(--pink);text-decoration:underline}
+  img{border:0;display:block}
+  .gif{display:inline-block;vertical-align:middle;image-rendering:pixelated}
+
+  .blink{animation:blink 1s steps(1) infinite}@keyframes blink{50%{opacity:0}}
+  .flick{animation:flick 3.5s infinite}@keyframes flick{0%,96%,100%{opacity:1}97%{opacity:.25}98%{opacity:.9}}
+
+  /* marquee + nav */
+  .marq{background:#000;border-bottom:2px solid var(--bord);color:var(--red);
+    font-family:'Silkscreen';font-size:12px;padding:5px 0;letter-spacing:1px;position:relative;z-index:2}
+  .topnav{background:rgba(8,2,3,0.93);border-bottom:2px ridge var(--bord);position:relative;z-index:2}
+  .topnav-in{max-width:780px;margin:0 auto;padding:7px 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .logo{font-family:'Pirata One';font-size:24px;color:var(--bone);text-shadow:2px 2px 0 #5a0000}
+  .logo b{color:var(--red)}.logo small{font-family:'VT323';font-size:13px;color:#7a4a4a;margin-left:5px}
+  .topnav .acc{margin-left:auto;font-size:14px;color:#7a4a4a}.topnav .acc a{color:#7a4a4a}
+  .topnav input{background:#1a0204;border:1px solid var(--bord);color:var(--red);font-family:inherit;padding:1px 5px;width:110px}
+  .topnav .go{background:#3a0000;border:1px solid var(--red);color:var(--red);font-family:inherit;cursor:pointer;padding:1px 8px}
+  .navlinks{max-width:780px;margin:0 auto;padding:3px 12px 7px;font-size:15px;text-align:center}
+  .navlinks a{color:var(--crim);margin:0 1px}
+
+  .page{max-width:780px;margin:14px auto 0;padding:0 10px;position:relative;z-index:1;
+    animation:floaty 5.5s ease-in-out infinite;will-change:transform}
+  /* gentle drift so it doesn't feel mechanical (de-slop: not one uniform motion) */
+  @keyframes floaty{
+    0%{transform:translateY(0)}
+    50%{transform:translateY(-13px)}
+    100%{transform:translateY(0)}
+  }
+  @media(prefers-reduced-motion:reduce){.page{animation:none}}
+  .cols{display:flex;gap:12px;align-items:flex-start}
+  .L{width:248px;flex:0 0 248px}
+  .R{flex:1;min-width:0}
+
+  /* boxes — slightly off-kilter, not uniform (de-slop: break mathematical uniformity) */
+  .box{border:1px solid var(--red);background:rgba(9,2,3,0.86);margin-bottom:12px;
+    box-shadow:0 0 0 1px #000,0 0 14px rgba(192,24,24,0.18)}
+  .box .bar{background:linear-gradient(#5a0000,#2a0000);color:#ffb3b3;font-family:'Silkscreen';
+    font-size:11px;padding:3px 7px;border-bottom:1px solid var(--red);letter-spacing:1px;
+    text-shadow:1px 1px 0 #000;display:flex;align-items:center;gap:6px}
+  .box .bar .gif{height:15px}
+  .box .in{padding:9px}
+  /* deliberate tilts — each different (hand-edited feel) */
+  .tiltL{transform:rotate(-1.4deg)} .tiltR{transform:rotate(1.1deg)} .tiltS{transform:rotate(-0.6deg)}
+
+  .uname{font-family:'Creepster';font-size:42px;color:var(--red);line-height:.95;
+    text-shadow:2px 2px 0 #2a0000,0 0 12px rgba(255,26,26,0.6);transform:rotate(-1.8deg);margin:2px 0}
+  .kao{font-family:'VT323';font-size:18px;color:var(--pink)}
+  .quip{font-size:16px;color:#a85a5a;margin-bottom:8px}
+
+  .pfp{border:1px solid var(--red);padding:4px;background:#000;transform:rotate(1.4deg);position:relative}
+  .pfp .ph{width:100%;aspect-ratio:1/1;filter:grayscale(1) contrast(1.25) brightness(.85);object-fit:cover;mix-blend-mode:luminosity}
+  .pfp .tint{position:absolute;inset:4px;background:rgba(150,0,0,0.3);mix-blend-mode:multiply;pointer-events:none}
+  .pfp .scan{position:absolute;inset:4px;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.35) 0 2px,transparent 2px 4px)}
+  .pfp .corner{position:absolute;top:-13px;right:-8px;height:26px}
+  .mood{font-size:15px;color:#a85a5a;margin:8px 0 2px}.mood b{color:var(--red)}
+  .vm{font-size:14px;color:#7a3030;margin-bottom:10px}
+
+  .contact a,.contact .row{display:flex;align-items:center;gap:6px;padding:4px 5px;color:var(--crim);font-size:16px;border-bottom:1px dotted #4a0d0d}
+  .contact a:last-child,.contact .row:last-child{border:0}.contact a:hover{background:#2a0000;color:var(--red)}
+  .contact .row .no{color:var(--red);font-weight:bold}.contact .row .yes{color:#7bd16f;font-weight:bold}
+  .contact .gif{height:15px;width:15px}
+
+  .url{border:1px dashed var(--red);background:#000;padding:5px 6px;text-align:center;font-size:14px;margin-bottom:12px;word-break:break-all}
+  .url .l{color:#7a3030}
+
+  .tab{width:100%;border-collapse:collapse}
+  .tab td{border:1px solid #4a0d0d;padding:5px 7px;vertical-align:top;font-size:16px}
+  .tab td.k{color:var(--red);background:#1a0204;width:74px;font-family:'Silkscreen';font-size:10px}
+
+  .bh{font-family:'Silkscreen';font-size:12px;color:var(--red);margin:2px 0 6px;display:flex;align-items:center;gap:5px}
+  .bh .gif{height:16px}
+  .bp{font-size:17px;color:#c87878;margin:0 0 12px}.bp b{color:var(--red)}
+
+  .cas{display:block;text-align:center;font-family:'Silkscreen';font-weight:700;font-size:16px;
+    color:#ffd0d0;letter-spacing:3px;text-shadow:0 0 8px var(--red),2px 2px 0 #000;
+    padding:13px 8px;margin:6px 0 12px;border:2px outset var(--red);
+    background:linear-gradient(#5a0000,#1a0000 60%,#3a0000);cursor:pointer;transform:rotate(-0.5deg)}
+  .cas:active{border-style:inset}
+
+  /* band logo grid — REAL clipped band-logo gifs (downloaded) */
+  .bands{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:4px 0}
+  .band{border:0;background:#000;padding:4px;display:flex;align-items:center;justify-content:center;min-height:36px;overflow:hidden}
+  .band img{max-width:100%;height:auto;max-height:30px;image-rendering:auto}
+  .band:hover{box-shadow:0 0 8px rgba(255,26,26,.4)}
+  /* blinkies promoted into the band grid — stretched to fill the plate */
+  .blink-band img{max-height:none;width:100%;height:auto;image-rendering:pixelated}
+  /* text logo plate for The Cure (no logo gif on hand) */
+  .band-cure{font-family:'Creepster';font-size:22px;color:var(--red);text-shadow:0 0 8px rgba(255,26,26,.6);letter-spacing:1px}
+
+  /* blinkie stack (the 88x31 badges) */
+  .blinkies{display:flex;flex-direction:column;align-items:center;gap:5px;margin:0 0 12px}
+  .blinkies img{image-rendering:pixelated;max-width:100%}
+
+  /* stamp / sticker collection grid */
+  .stamps{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;place-items:center}
+  .stamps img{max-width:100%;height:auto;max-height:48px;border:1px solid #2a0808;background:#000}
+
+  /* big decorative gif embeds inside about (like real scene profiles) */
+  .embeds{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:8px 0 12px}
+  .embeds img{max-width:47%;height:auto;border:1px solid var(--bord);filter:grayscale(.15) contrast(1.05)}
+  .embeds img.wide{max-width:96%}
+
+  .fc{font-size:16px;color:#c87878;margin-bottom:9px}.fc b{color:var(--red)}
+  .fr{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+  .fr figure{margin:0;text-align:center}
+  .fr .ph{width:100%;aspect-ratio:1/1;border:1px solid var(--red);filter:grayscale(1) contrast(1.2) brightness(.8);object-fit:cover}
+  .fr figcaption{font-size:14px;color:var(--crim);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;justify-content:center;gap:3px}
+  .fr figcaption .gif{height:13px;width:13px}
+
+  .cm{display:flex;gap:8px;border:1px solid #4a0d0d;background:#000;padding:7px;margin-bottom:8px}
+  .cm .av{width:48px;height:48px;flex:0 0 48px;border:1px solid var(--red);filter:grayscale(1) contrast(1.2);object-fit:cover}
+  .cm .who{color:var(--red);font-size:16px}.cm .when{color:#7a3030;font-size:13px}
+  .cm .tx{font-size:16px;color:#c87878}
+
+  .copyable{cursor:pointer;border-bottom:1px dotted #7a3030;color:var(--red)}
+
+  /* divider row of drip gifs */
+  .driprow{display:flex;gap:14px;justify-content:center;margin:-2px 0 10px;opacity:.9}
+  .driprow .gif{height:20px}
+
+  .foot{max-width:780px;margin:14px auto;padding:12px;text-align:center;color:#7a3030;font-size:13px;border-top:1px solid #4a0d0d;position:relative;z-index:1}
+  .foot a{color:#7a3030}
+
+  @media(max-width:680px){.cols{flex-direction:column}.L{width:100%;flex:none}.uname{font-size:34px}}
+</style>
+</head>
+<body>
+
+<!-- demon eyes watching from the background -->
+<img class="bgeyes" src="assets/dl/demoneyes.gif" alt="">
+
+<div class="marq"><marquee scrollamount="5">✦ ♱ ✦  welcome 2 my page  ✦  dont add me if ur boring  ✦  larping.pro or die  ✦  ( ˘ ³˘) ♥  ✦  currently: not here  ✦  &gt;.&lt;  ✦  blood is just red water  ✦ ♱ ✦</marquee></div>
+
+<div class="page">
+
+  <div class="uname">&gt;..haru..&lt;</div>
+  <div class="kao"><img class="gif" src="assets/heart.gif" alt="" style="height:18px"> owner of <b style="color:var(--red)">fear</b> ( ˘ ³˘) <img class="gif" src="assets/dl/eye.gif" alt="" style="height:18px"></div>
+  <div class="quip">"dont be shy i only bite a little &gt;.&lt;"</div>
+  <img src="assets/dl/deadblondes-cut.gif" alt="" style="display:block;margin:6px auto 10px;width:100%;max-width:480px;height:auto">
+
+  <div class="cols">
+
+    <!-- LEFT -->
+    <div class="L">
+      <div class="pfp">
+        <img class="gif corner" src="assets/star.gif" alt="">
+        <img class="ph" src="assets/pfp.jpg" alt="haru">
+        <div class="tint"></div><div class="scan"></div>
+      </div>
+      <div style="text-align:center;font-family:'Silkscreen';font-size:14px;color:var(--bone);margin:7px 0 1px;letter-spacing:1px">haru</div>
+      <div class="mood">mood: <b>dissociating</b> <img class="gif" src="assets/twinkle.gif" style="height:14px"></div>
+      <div class="mood">status: <b class="flick">online</b> <span style="color:#7a3030;font-size:13px">· last seen: now</span></div>
+      <div class="vm">find me: <a href="https://larping.pro" target="_blank">larping.pro</a> | <a href="https://t.me/aromaticend" target="_blank">telegram</a></div>
+
+      <div class="box tiltL">
+        <div class="bar"><img class="gif" src="assets/cross.gif">B4 U ADD ME ♱</div>
+        <div class="in contact">
+          <div class="row"><img class="gif" src="assets/heart.gif"><span class="yes">+</span>&nbsp;dont be shy please tell me anything</div>
+          <div class="row"><img class="gif" src="assets/twinkle.gif"><span class="yes">+</span>&nbsp;ppl with good music taste</div>
+          <div class="row"><img class="gif" src="assets/star.gif"><span class="yes">+</span>&nbsp;i bite</div>
+          <div class="row"><img class="gif" src="assets/cross.gif"><span class="no">-</span>&nbsp;dni: boring ppl &amp; racists</div>
+          <div class="row"><img class="gif" src="assets/cross.gif"><span class="no">-</span>&nbsp;no dms abt politics</div>
+          <div class="row"><img class="gif" src="assets/heart.gif">i reply fastest on discord &gt;.&lt;</div>
+        </div>
+      </div>
+
+      <div class="url"><span class="l">spacehey url:</span><br><a href="https://larping.pro" target="_blank">larping.pro</a></div>
+
+      <!-- stamps / sticker collection -->
+      <div class="box tiltL">
+        <div class="bar"><img class="gif" src="assets/dl/dice.gif">STAMPS i collect ♱</div>
+        <div class="in stamps">
+          <img src="assets/dl/flag-israel.gif" alt="israel" title="home">
+          <img src="assets/dl/flag-russia.gif" alt="russia" title="russia">
+          <img src="assets/dl/dice.gif" alt="dice" title="lucky">
+          <img src="assets/dl/skull.gif" alt="skull" title="memento mori">
+          <img src="assets/dl/coffin.gif" alt="coffin" title="rip">
+          <img src="assets/dl/eye.gif" alt="eye" title="i see u">
+        </div>
+      </div>
+
+      <div class="box tiltR">
+        <div class="bar"><img class="gif" src="assets/twinkle.gif">&gt;..haru..&lt;'s INTERESTS</div>
+        <div class="in" style="padding:0">
+          <table class="tab">
+            <tr><td class="k">general</td><td>i like playing drums, listening to music, staying up late</td></tr>
+            <tr><td class="k">music</td><td>currently: deftones, linkin park, greenday, weezer, eifo hayeled</td></tr>
+            <tr><td class="k">movies</td><td>i dont watch much</td></tr>
+            <tr><td class="k">tv</td><td>i dont watch tv shows at all</td></tr>
+            <tr><td class="k">books</td><td>nah lol</td></tr>
+            <tr><td class="k">special ppl</td><td>you</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="R">
+
+      <div class="box tiltS">
+        <div class="bar"><img class="gif" src="assets/heart.gif">&gt;..haru..&lt;'s BLURBS</div>
+        <div class="in">
+          <div class="bh"><img class="gif" src="assets/star.gif">about me:</div>
+          <a class="cas" href="https://larping.pro" target="_blank">CONTINUE AND SAVE</a>
+          <div class="driprow"><img class="gif" src="assets/drip.gif"><img class="gif" src="assets/drip.gif"><img class="gif" src="assets/drip.gif"><img class="gif" src="assets/drip.gif"></div>
+          <p class="bp">
+            heyy its <b>haru</b> ♱ i run <a href="https://larping.pro" target="_blank">larping.pro</a>, im 14 and i like music.
+            my personality is different based on who im talking to, and also pls dont ask me for promises im bad at those.
+            anyways please <span class="blink" style="color:var(--red)">ADD ME</span> b4 i die from loneliness
+          </p>
+
+          <div class="bh"><img class="gif" src="assets/dl/redcross.gif" style="height:16px">currently rotting to:</div>
+          <div class="bands">
+            <div class="band"><img src="assets/dl/band-deftones.gif" alt="Deftones"></div>
+            <div class="band"><img src="assets/dl/band-evanescence.gif" alt="Evanescence"></div>
+            <div class="band"><img src="assets/dl/band-soad.gif" alt="System of a Down"></div>
+            <div class="band"><img src="assets/dl/band-machinegirl.gif" alt="Machine Girl"></div>
+            <div class="band"><img src="assets/dl/band-crystalcastles.gif" alt="Crystal Castles"></div>
+            <div class="band"><img src="assets/dl/band-nirvana.gif" alt="Nirvana"></div>
+            <div class="band"><img src="assets/dl/band-radiohead.gif" alt="Radiohead"></div>
+            <div class="band"><img src="assets/dl/band-linkinpark.gif" alt="Linkin Park"></div>
+            <div class="band"><img src="assets/dl/band-weezer.gif" alt="Weezer"></div>
+            <div class="band"><img src="assets/dl/band-greenday.gif" alt="Green Day"></div>
+            <div class="band"><img src="assets/dl/band-foofighters.gif" alt="Foo Fighters"></div>
+            <div class="band"><img src="assets/dl/band-smiths.gif" alt="The Smiths"></div>
+            <div class="band blink-band"><img src="assets/dl/scene.webp" alt="The Cure"></div>
+            <div class="band blink-band"><img src="assets/dl/blinkie-1.gif" alt="Eifo HaYeled"></div>
+            <div class="band blink-band"><img src="assets/dl/blinkie-2.gif" alt="Superheaven"></div>
+            <div class="band blink-band"><img src="assets/dl/blinkie-demoneyes.gif" alt="Demon Days"></div>
+          </div>
+
+          <div class="bh" style="margin-top:12px"><img class="gif" src="assets/cross.gif">who i'd like to meet:</div>
+          <p class="bp" style="margin:0">
+            honest people that like any kinda music and alot of it, and dont care what kinda person
+            you are to love you, and people who talk alot ( ˘ ³˘)
+          </p>
+        </div>
+      </div>
+
+      <div class="box tiltR">
+        <div class="bar"><img class="gif" src="assets/heart.gif">FIND ME ♱ dont be weird</div>
+        <div class="in" style="padding:0">
+          <table class="tab">
+            <tr><td class="k">discord</td><td><span class="copyable" onclick="cp(this,'5mqe')">5mqe</span> &nbsp;/&nbsp; <span class="copyable" onclick="cp(this,'fatalloser')">fatalloser</span> &nbsp;<span style="color:#7a3030;font-size:13px">(click2copy)</span></td></tr>
+            <tr><td class="k">telegram</td><td><a href="https://t.me/aromaticend" target="_blank">@aromaticend</a></td></tr>
+            <tr><td class="k">website</td><td><a href="https://larping.pro" target="_blank">larping.pro</a></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="box tiltS">
+        <div class="bar"><img class="gif" src="assets/drip.gif">&gt;..haru..&lt;'s COMMENTS</div>
+        <div class="in">
+          <div style="font-size:14px;color:#7a3030;margin-bottom:9px">displaying 4 of 4 ( <a href="https://t.me/aromaticend" target="_blank">leave one on my tg</a> )</div>
+          <div class="cm"><img class="av" src="https://picsum.photos/seed/kitten/80/80" onerror="this.removeAttribute('src')"><div><span class="who">sexy ekitten</span> <span class="when">· 2h ago</span><div class="tx">dada gimme many</div></div></div>
+          <div class="cm"><img class="av" src="https://picsum.photos/seed/neth/80/80" onerror="this.removeAttribute('src')"><div><span class="who">nethanyahu</span> <span class="when">· 5h ago</span><div class="tx">yo youre the goat bro</div></div></div>
+          <div class="cm"><img class="av" src="https://picsum.photos/seed/goth/80/80" onerror="this.removeAttribute('src')"><div><span class="who">goth baddie</span> <span class="when">· yesterday</span><div class="tx">save me</div></div></div>
+          <div class="cm"><img class="av" src="https://picsum.photos/seed/scene/80/80" onerror="this.removeAttribute('src')"><div><span class="who">scene baddie</span> <span class="when">· 2d ago</span><div class="tx">save me too</div></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="foot">
+  <img class="gif" src="assets/dl/skull.gif" style="height:20px"> &gt;..haru..&lt; ♱ larping.pro · <span class="blink">made @ 2am</span> <img class="gif" src="assets/dl/skull.gif" style="height:20px"><br>
+  <a href="https://larping.pro" target="_blank">larping.pro</a> · <a href="https://t.me/aromaticend" target="_blank">telegram</a> · <span class="copyable" onclick="cp(this,'5mqe')">copy discord</span>
+</div>
+
+<script>
+  function cp(el, txt){
+    navigator.clipboard?.writeText(txt);
+    const old = el.textContent;
+    el.textContent = 'copied ✓';
+    setTimeout(()=>{ el.textContent = old; }, 1200);
+    return false;
+  }
+</script>
+</body>
+</html>
