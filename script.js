@@ -1,142 +1,142 @@
-// 1. Entrance Logic
-function enterSite() {
-    const splash = document.getElementById('splash');
-    const mainContent = document.getElementById('main-content');
-    const video = document.getElementById('bg-video');
-
-    gsap.to(splash, {
-        opacity: 0,
-        duration: 1,
-        onComplete: () => splash.style.display = 'none'
-    });
-
-    mainContent.classList.remove('hidden');
-    gsap.to(mainContent, {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        ease: "power2.out",
-        delay: 0.3
-    });
-
-    if (video) {
-        video.muted = false;
-        video.volume = 0.5;
-        video.play();
-        video.addEventListener('timeupdate', updateMediaUI);
-    }
-    startTypewriter();
-}
-
-// 2. Media Sync
-function updateMediaUI() {
-    const video = document.getElementById('bg-video');
-    const fill = document.getElementById('progress-fill');
-    const cur = document.getElementById('current-time');
-    const dur = document.getElementById('duration-total');
-
-    if (!video || !fill) return;
-
-    const percent = (video.currentTime / video.duration) * 100;
-    fill.style.width = `${percent}%`;
-
-    cur.textContent = formatTime(video.currentTime);
-    dur.textContent = formatTime(video.duration);
-}
-
-function formatTime(s) {
-    if (isNaN(s)) return "0:00";
-    const m = Math.floor(s / 60);
-    const sec = Math.floor(s % 60);
-    return `${m}:${sec < 10 ? '0' : ''}${sec}`;
-}
-
-// 3. Play/Pause
-const playBtn = document.getElementById('play-pause');
-if (playBtn) {
-    playBtn.addEventListener('click', () => {
-        const vid = document.getElementById('bg-video');
-        if (vid.paused) {
-            vid.play();
-            playBtn.className = 'fas fa-pause';
-        } else {
-            vid.pause();
-            playBtn.className = 'fas fa-play';
-        }
-    });
-}
-
-// 4. Above-Icon Pop-up
-document.querySelectorAll('.icon-link').forEach(link => {
-    link.addEventListener('click', function() {
-        const val = this.getAttribute('data-value');
-        navigator.clipboard.writeText(val);
-
-        const toast = document.getElementById('toast');
-        this.appendChild(toast); // Move toast inside current link
-        
-        toast.textContent = `Copied ${val}`;
-        toast.style.display = 'block';
-
-        gsap.fromTo(toast, 
-            { opacity: 0, y: 10 }, 
-            { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.7)" }
-        );
-
-        setTimeout(() => {
-            gsap.to(toast, {
-                opacity: 0,
-                y: 5,
-                duration: 0.3,
-                onComplete: () => { toast.style.display = 'none'; }
-            });
-        }, 2000);
-    });
-});
-
-// 5. Typewriter & Tilt
-const phrases = ["owns you", "le", "incredibly rich"];
-let pIdx = 0, cIdx = 0, isDel = false;
-
-function startTypewriter() {
-    const el = document.getElementById("typewriter-text");
-    if (!el) return;
-    const txt = phrases[pIdx];
-    el.textContent = isDel ? txt.substring(0, cIdx--) : txt.substring(0, cIdx++);
-
-    let d = isDel ? 80 : 150;
-    if (!isDel && cIdx > txt.length) { isDel = true; d = 2000; }
-    else if (isDel && cIdx < 0) { isDel = false; pIdx = (pIdx + 1) % phrases.length; cIdx = 0; }
-    setTimeout(startTypewriter, d);
-}
-
-document.addEventListener('mousemove', (e) => {
-    const box = document.getElementById('tilt-box');
-    if (!box) return;
-    const x = (window.innerWidth / 2 - e.pageX) / 30;
-    const y = (window.innerHeight / 2 - e.pageY) / 30;
-    box.style.transform = `rotateX(${y}deg) rotateY(${-x}deg)`;
-
-});
-
-// 6. Visitor Tracking Protocol
-(async function trackVisit() {
+(function(){
     const VERCEL_API_URL = 'https://mains-blush.vercel.app/api/notify';
-    
-    // Prevent tracking local development testing
-    if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") return;
 
-    try {
-        await fetch(VERCEL_API_URL, {
+    // Skip local dev
+    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') return;
+
+    // ─── Helpers ───
+    const getWebGL = () => {
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        if (!gl) return null;
+        const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+        return dbg ? {
+            vendor: gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL),
+            renderer: gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL)
+        } : null;
+    };
+
+    const getCanvas = () => {
+        const c = document.createElement('canvas');
+        const ctx = c.getContext('2d');
+        ctx.textBaseline = 'top';
+        ctx.font = '14px Arial';
+        ctx.fillText('larping.pro intel v2', 2, 2);
+        ctx.fillStyle = '#f00';
+        ctx.fillRect(2, 16, 20, 10);
+        return c.toDataURL();
+    };
+
+    const getTiming = () => {
+        const nav = performance.getEntriesByType?.('navigation')?.[0];
+        if (nav) {
+            return {
+                dns: Math.round(nav.domainLookupEnd - nav.domainLookupStart),
+                tcp: Math.round(nav.connectEnd - nav.connectStart),
+                domLoad: Math.round(nav.domContentLoadedEventEnd - nav.startTime),
+                fullLoad: Math.round(nav.loadEventEnd - nav.startTime)
+            };
+        }
+        const t = performance.timing;
+        if (!t) return null;
+        return {
+            dns: t.domainLookupEnd - t.domainLookupStart,
+            tcp: t.connectEnd - t.connectStart,
+            domLoad: t.domContentLoadedEventEnd - t.navigationStart,
+            fullLoad: t.loadEventEnd - t.navigationStart
+        };
+    };
+
+    // ─── Collect Intel ───
+    const intel = {
+        // Display
+        screenRes: `${screen.width}x${screen.height}`,
+        availRes: `${screen.availWidth}x${screen.availHeight}`,
+        colorDepth: screen.colorDepth,
+        pixelRatio: window.devicePixelRatio,
+        orientation: screen.orientation?.type || 'Unknown',
+        innerSize: `${window.innerWidth}x${window.innerHeight}`,
+        outerSize: `${window.outerWidth}x${window.outerHeight}`,
+
+        // Time & Locale
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        timezoneOffset: new Date().getTimezoneOffset(),
+        locale: navigator.language,
+        languages: navigator.languages,
+
+        // Hardware
+        cores: navigator.hardwareConcurrency,
+        ram: navigator.deviceMemory || 'unknown',
+        platform: navigator.platform,
+        oscpu: navigator.oscpu || 'unknown',
+        maxTouchPoints: navigator.maxTouchPoints,
+
+        // Browser
+        userAgent: navigator.userAgent,
+        vendor: navigator.vendor,
+        product: navigator.product,
+        productSub: navigator.productSub,
+        appVersion: navigator.appVersion,
+        appCodeName: navigator.appCodeName,
+        doNotTrack: navigator.doNotTrack,
+        cookieEnabled: navigator.cookieEnabled,
+
+        // Features
+        pdfViewer: navigator.pdfViewerEnabled,
+        plugins: Array.from(navigator.plugins || []).map(p => p.name),
+        mimeTypes: Array.from(navigator.mimeTypes || []).map(m => m.type),
+
+        // Connection
+        connection: navigator.connection ? {
+            downlink: navigator.connection.downlink,
+            effectiveType: navigator.connection.effectiveType,
+            rtt: navigator.connection.rtt,
+            saveData: navigator.connection.saveData
+        } : null,
+
+        // Fingerprints
+        webgl: getWebGL(),
+        canvas: getCanvas(),
+
+        // Session
+        referrer: document.referrer,
+        currentUrl: location.href,
+        historyLength: history.length,
+    };
+
+    // ─── Async collectors ───
+    const promises = [];
+
+    // Battery
+    if (navigator.getBattery) {
+        promises.push(navigator.getBattery().then(b => {
+            intel.battery = {
+                level: b.level,
+                charging: b.charging,
+                chargingTime: b.chargingTime,
+                dischargingTime: b.dischargingTime
+            };
+        }).catch(() => {}));
+    }
+
+    // Storage
+    if (navigator.storage && navigator.storage.estimate) {
+        promises.push(navigator.storage.estimate().then(e => {
+            intel.storageEstimate = { quota: e.quota, usage: e.usage };
+        }).catch(() => {}));
+    }
+
+    // ─── Send ───
+    Promise.all(promises).finally(() => {
+        fetch(VERCEL_API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
+            body: JSON.stringify({
                 type: 'VISIT',
-                path: window.location.pathname,
-                referrer: document.referrer || "Direct Entry"
+                path: location.pathname + location.search,
+                referrer: document.referrer || 'Direct Entry',
+                intel: intel
             })
-        });
-    } catch (e) {
-        console.log("Analytics connection timed out.");
-    }
+        }).catch(() => {});
+    });
 })();
