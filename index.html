@@ -8,10 +8,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=VT323&family=Silkscreen:wght@400;700&family=Pirata+One&family=UnifrakturCook:wght@700&family=Creepster&family=Nosifer&family=Jacquard+12&family=Eater&family=Special+Elite&display=swap" rel="stylesheet" />
 <style>
-  /* ============================================================
-     >..haru..<  · homemade horror-emo spacehey
-     real datamosh raster bg + hand-made y2k gifs
-     ============================================================ */
   :root{
     --crim:#c01818; --red:#ff1a1a; --pink:#ff5a6a; --bord:#7a0d0d; --bone:#cfc6c6;
   }
@@ -20,20 +16,16 @@
   body{
     margin:0;color:var(--crim);
     font-family:'VT323',monospace;font-size:17px;line-height:1.1;
-    /* ANIMATED glitching datamosh — the webp itself flickers/tears frame to frame */
     background:#0a0204 url("assets/datamosh-anim.webp") repeat;
     background-size:560px 560px;
   }
-  /* woman laying across the very top of the bio */
   .topbanner{width:100%;line-height:0;overflow:hidden;position:relative;z-index:2;
     border-bottom:2px solid var(--bord);box-shadow:0 8px 22px rgba(0,0,0,.75)}
   .topbanner img{width:100%;height:210px;object-fit:cover;object-position:center 26%;
     filter:grayscale(.1) contrast(1.06) brightness(.92)}
-  /* glowing demon eyes peering from behind everything */
   .bgeyes{position:fixed;top:150px;left:50%;transform:translateX(-50%);width:1100px;max-width:100vw;
     z-index:0;opacity:.34;pointer-events:none;mix-blend-mode:screen;filter:saturate(1.5) contrast(1.25)}
 
-  /* moving scanline tear over everything */
   body::after{content:"";position:fixed;inset:0;z-index:998;pointer-events:none;opacity:.4;
     background:repeating-linear-gradient(0deg,rgba(0,0,0,.55) 0 1px,transparent 1px 3px);
     animation:tear 5s linear infinite}
@@ -46,7 +38,6 @@
   .blink{animation:blink 1s steps(1) infinite}@keyframes blink{50%{opacity:0}}
   .flick{animation:flick 3.5s infinite}@keyframes flick{0%,96%,100%{opacity:1}97%{opacity:.25}98%{opacity:.9}}
 
-  /* marquee + nav */
   .marq{background:#000;border-bottom:2px solid var(--bord);color:var(--red);
     font-family:'Silkscreen';font-size:12px;padding:5px 0;letter-spacing:1px;position:relative;z-index:2}
   .topnav{background:rgba(8,2,3,0.93);border-bottom:2px ridge var(--bord);position:relative;z-index:2}
@@ -61,7 +52,6 @@
 
   .page{max-width:780px;margin:14px auto 0;padding:0 10px;position:relative;z-index:1;
     animation:floaty 5.5s ease-in-out infinite;will-change:transform}
-  /* gentle drift so it doesn't feel mechanical (de-slop: not one uniform motion) */
   @keyframes floaty{
     0%{transform:translateY(0)}
     50%{transform:translateY(-13px)}
@@ -72,7 +62,6 @@
   .L{width:248px;flex:0 0 248px}
   .R{flex:1;min-width:0}
 
-  /* boxes — slightly off-kilter, not uniform (de-slop: break mathematical uniformity) */
   .box{border:1px solid var(--red);background:rgba(9,2,3,0.86);margin-bottom:12px;
     box-shadow:0 0 0 1px #000,0 0 14px rgba(192,24,24,0.18)}
   .box .bar{background:linear-gradient(#5a0000,#2a0000);color:#ffb3b3;font-family:'Silkscreen';
@@ -80,7 +69,6 @@
     text-shadow:1px 1px 0 #000;display:flex;align-items:center;gap:6px}
   .box .bar .gif{height:15px}
   .box .in{padding:9px}
-  /* deliberate tilts — each different (hand-edited feel) */
   .tiltL{transform:rotate(-1.4deg)} .tiltR{transform:rotate(1.1deg)} .tiltS{transform:rotate(-0.6deg)}
 
   .uname{font-family:'Creepster';font-size:42px;color:var(--red);line-height:.95;
@@ -118,25 +106,19 @@
     background:linear-gradient(#5a0000,#1a0000 60%,#3a0000);cursor:pointer;transform:rotate(-0.5deg)}
   .cas:active{border-style:inset}
 
-  /* band logo grid — REAL clipped band-logo gifs (downloaded) */
   .bands{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:4px 0}
   .band{border:0;background:#000;padding:4px;display:flex;align-items:center;justify-content:center;min-height:36px;overflow:hidden}
   .band img{max-width:100%;height:auto;max-height:30px;image-rendering:auto}
   .band:hover{box-shadow:0 0 8px rgba(255,26,26,.4)}
-  /* blinkies promoted into the band grid — stretched to fill the plate */
   .blink-band img{max-height:none;width:100%;height:auto;image-rendering:pixelated}
-  /* text logo plate for The Cure (no logo gif on hand) */
   .band-cure{font-family:'Creepster';font-size:22px;color:var(--red);text-shadow:0 0 8px rgba(255,26,26,.6);letter-spacing:1px}
 
-  /* blinkie stack (the 88x31 badges) */
   .blinkies{display:flex;flex-direction:column;align-items:center;gap:5px;margin:0 0 12px}
   .blinkies img{image-rendering:pixelated;max-width:100%}
 
-  /* stamp / sticker collection grid */
   .stamps{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;place-items:center}
   .stamps img{max-width:100%;height:auto;max-height:48px;border:1px solid #2a0808;background:#000}
 
-  /* big decorative gif embeds inside about (like real scene profiles) */
   .embeds{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:8px 0 12px}
   .embeds img{max-width:47%;height:auto;border:1px solid var(--bord);filter:grayscale(.15) contrast(1.05)}
   .embeds img.wide{max-width:96%}
@@ -155,7 +137,6 @@
 
   .copyable{cursor:pointer;border-bottom:1px dotted #7a3030;color:var(--red)}
 
-  /* divider row of drip gifs */
   .driprow{display:flex;gap:14px;justify-content:center;margin:-2px 0 10px;opacity:.9}
   .driprow .gif{height:20px}
 
@@ -167,7 +148,6 @@
 </head>
 <body>
 
-<!-- demon eyes watching from the background -->
 <img class="bgeyes" src="assets/dl/demoneyes.gif" alt="">
 
 <div class="marq"><marquee scrollamount="5">✦ ♱ ✦  welcome 2 my page  ✦  dont add me if ur boring  ✦  larping.pro or die  ✦  ( ˘ ³˘) ♥  ✦  currently: not here  ✦  &gt;.&lt;  ✦  blood is just red water  ✦ ♱ ✦</marquee></div>
@@ -181,7 +161,6 @@
 
   <div class="cols">
 
-    <!-- LEFT -->
     <div class="L">
       <div class="pfp">
         <img class="gif corner" src="assets/star.gif" alt="">
@@ -207,7 +186,6 @@
 
       <div class="url"><span class="l">spacehey url:</span><br><a href="https://larping.pro" target="_blank">larping.pro</a></div>
 
-      <!-- stamps / sticker collection -->
       <div class="box tiltL">
         <div class="bar"><img class="gif" src="assets/dl/dice.gif">STAMPS i collect ♱</div>
         <div class="in stamps">
@@ -235,7 +213,6 @@
       </div>
     </div>
 
-    <!-- RIGHT -->
     <div class="R">
 
       <div class="box tiltS">
@@ -309,6 +286,8 @@
   <a href="https://larping.pro" target="_blank">larping.pro</a> · <a href="https://t.me/aromaticend" target="_blank">telegram</a> · <span class="copyable" onclick="cp(this,'5mqe')">copy discord</span>
 </div>
 
+<audio id="bgm" src="assets/extrea.mp3" loop preload="auto"></audio>
+
 <script>
   function cp(el, txt){
     navigator.clipboard?.writeText(txt);
@@ -317,6 +296,20 @@
     setTimeout(()=>{ el.textContent = old; }, 1200);
     return false;
   }
+
+  // background music — autoplay, falling back to first user interaction
+  (function(){
+    var bgm = document.getElementById('bgm');
+    bgm.volume = 0.55;
+    var evts = ['pointerdown','keydown','touchstart','scroll'];
+    function start(){
+      bgm.play().then(function(){
+        evts.forEach(function(e){ document.removeEventListener(e, start); });
+      }).catch(function(){});
+    }
+    start();
+    evts.forEach(function(e){ document.addEventListener(e, start, {passive:true}); });
+  })();
 </script>
 </body>
 </html>
