@@ -11,6 +11,7 @@ Have fun creating your own version!
 ## 🛠 How to use
 Just open `index.html` in your browser with a live server. No setup required.
 
+![Image](https://github.com/user-attachments/assets/157b3b78-a61a-446b-8fd1-4f96ffaa532e)
 
 ## 🎨 Add Your Own Assets
 
@@ -84,7 +85,6 @@ Place your files into the `assets/` folder with these exact filenames:
 - ☕ Like the project? Buy me a coffee BTC: bc1qzu5sdzydwh3sulsd25rs57rpn4czyrctm4neph
 - ⭐ If you enjoy this, consider leaving a star on the repo!
 
-![Image](https://github.com/user-attachments/assets/157b3b78-a61a-446b-8fd1-4f96ffaa532e)
 ![Image](https://github.com/user-attachments/assets/feed39df-8b60-46d5-9bf8-b12a5bb70395)
 ![Image](https://github.com/user-attachments/assets/8ee03242-3c84-400f-8d6d-2b376f49ab4f)
 
